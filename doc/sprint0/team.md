@@ -13,4 +13,7 @@
 
 ## Team Discord Invite
 
-- [https://discord.gg/V7yFBYuzJg]("https://discord.gg/V7yFBYuzJg")
+- [https://discord.gg/V7yFBYuzJg](https://discord.gg/V7yFBYuzJg)
+
+## Team Trello Invite Link 
+- [https://trello.com/invite/66edec08cd67a4e6de411148/ATTId7bda0ae9937fdc258bc63b8eff3203785582913](https://trello.com/invite/66edec08cd67a4e6de411148/ATTId7bda0ae9937fdc258bc63b8eff3203785582913)
