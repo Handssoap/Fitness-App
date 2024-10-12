@@ -1,11 +1,11 @@
 # Product Backlog
 
 ## User Story 1:
-- **As a beginner user**, I want to log my workouts with step-by-step instructions, so that I can confidently learn new exercises and track my progress.
+- **As a busy professional**, I want quick workout options and reminders to stay active throughout the day, so that I can maintain my fitness within my limited schedule.
   - **Acceptance Criteria**:
-    - User can select beginner-friendly workouts with detailed guidance.
-    - User can log basics like duration and intensity.
-    - User can view progress over time with simplified metrics.
+    - User can select short workout routines (10-15 minutes).
+    - App provides reminders for quick activity breaks.
+    - User can log these workouts and view progress with daily summaries.
 
 ## User Story 2:
 - **As a casual fitness enthusiast**, I want to log simple workouts, so that I can maintain a regular fitness routine without needing complex details.
@@ -22,9 +22,9 @@
     - User can compare recent and past sessions for improvement tracking.
 
 ## User Story 4:
-- **As a personal trainer**, I want to create and manage challenges for my clients, so that I can keep them engaged and motivated throughout their fitness journey.
+- **As a user recovering from an injury**, I want to log low-impact exercises with modifications, so that I can track my rehabilitation progress without risking further injury.
   - **Acceptance Criteria**:
-    - Trainer can set up custom challenges (e.g., steps or workout goals).
-    - App tracks client progress and displays a leaderboard.
-    - Trainer can monitor individual client achievements within each challenge.
+    - User can select low-impact exercise options with modification suggestions.
+    - User can log exercise duration and pain level.
+    - App provides visual recovery tracking over time.
 
