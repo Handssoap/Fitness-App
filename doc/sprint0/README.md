@@ -9,10 +9,18 @@ With this, we aim to help users reach their desired physical goal while providin
 Installation:
 
 Make sure node.js is installed or up-to-date https://nodejs.org/en
+
 Open your preferred ide
-Clone the GitHub repo (run the command below in the terminal) git clone https://github.com/EECS3311F24/project-latte.git
+
+Clone the GitHub repo (run the command below in the terminal) 
+git clone https://github.com/EECS3311F24/project-latte.git
+
 Navigate to the project directory (run the command below in the terminal) cd ProjectFit
 Run the project npx expo start
+
 Install any dependencies that pop up (y)
+
 Open the project on your browser by pressing w in the terminal
-Contribution: We do not use git flow. However, new features are branched and named according to the feature. Any bugs will be brought up with GitHub issues. Before merging with the main branch, a pull request is made and reviewed by one or more team members.
+
+Contribution: 
+We do not use git flow. However, new features are branched and named according to the feature. Any bugs will be brought up with GitHub issues. Before merging with the main branch, a pull request is made and reviewed by one or more team members.
