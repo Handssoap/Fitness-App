@@ -105,7 +105,7 @@
 **As a data enthusiast**, I want to incorporate the information from my wearables in the app. 
 
 - **Critera of Satisfaction**:
-  - View the calories, heart rate, steps recorded from a watch or heart rate monitor throughout the day 
+  - View the calories, heart rate, steps and other statistics recorded from a watch or heart rate monitor throughout the day
 
 ## User Story 14:
 
@@ -124,7 +124,7 @@
 
 ## User Story 16:
 
-**As a person who juggles multiple jobs**, I want to see an overview of my previous or any future activities. 
+**As a person who juggles multiple jobs**, I want to see an overview of my previous activities and schedule new ones easily.
 
 - **Critera of Satisfaction**:
   - Show activities together in a weekly or monthly view
