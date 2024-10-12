@@ -72,14 +72,14 @@
 
 ## User Story 9:
 
-As a new user, I want to be able to register for an account
+**As a new user**, I want to be able to register for an account
 
 - **Critera of Satisfaction**:
   - register using email, and password
 
 ## User Story 10:
 
-As an active user, I can view a list of my workout plans completed in the past
+**As an active user**, I can view a list of my workout plans completed in the past
 
 - **Critera of Satisfaction**:
   - the list can be in another tab
@@ -87,14 +87,14 @@ As an active user, I can view a list of my workout plans completed in the past
 
 ## User Story 11:
 
-As an person trying to lose weight, I want to be able to calculate the required daily caloric intake to lose weight
+**As an person trying to lose weight**, I want to be able to calculate the required daily caloric intake to lose weight
 
 - **Critera of Satisfaction**:
   - I can view the current intake on that day compared to the goal. For example, if my goal is 2100 calories, and I’ve consumed 1500, I want to see something like “1500/2100 calories today!”-
 
 ## User Story 12:
 
-As a user on a diet, when logging my meal I want to search for my meal and avoid manually typing the nutrition facts
+**As a user on a diet**, when logging my meal I want to search for my meal and avoid manually typing the nutrition facts
 
 - **Critera of Satisfaction**:
   - I can type my meal in some type of input field
@@ -102,19 +102,36 @@ As a user on a diet, when logging my meal I want to search for my meal and avoid
 
 ## User Story 13:
 
+**As a data enthusiast**, I want to incorporate the information from my wearables in the app. 
+
 - **Critera of Satisfaction**:
+  - View the calories, heart rate, steps recorded from a watch or heart rate monitor throughout the day 
 
 ## User Story 14:
 
+**As a yogi that incorporates weight lifting in their routine**, I want to create workouts with yoga poses or add a new pose that wasn't available in the app before.
+
 - **Critera of Satisfaction**:
+  - Can select yoga poses from the database and add it to a routine
+  - Can add a custom pose with the its name and a photo or gif of such pose
 
 ## User Story 15:
 
+**As a person who dabbles in multiple kinds of sports or outdoor activities**, I want to use one app to track all my activities.
+
 - **Critera of Satisfaction**:
+  - Record an activities along with various statistics about it like distance and elevation for hiking or pace and cadence for running, etc. 
 
 ## User Story 16:
 
+**As a person who juggles multiple jobs**, I want to see an overview of my previous or any future activities. 
+
 - **Critera of Satisfaction**:
+  - Show activities together in a weekly or monthly view
+  - Schedule new activities within the weekly or monthly view 
+  - Able to delete or reschedule future activities
+  - Able to attach a routine with an activity
+
 
 ## User Story 17:
 
