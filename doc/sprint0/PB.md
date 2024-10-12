@@ -37,9 +37,9 @@
 ## User Story 6: 
 **As an individual who struggles with confidence**, I would love an app to help me overcome my fears of exercising in public.
 - **Acceptance Criteria**:
--Provide mental health care for those struggling with public anxiety
--Could be in the form of positive advice/notes from ai or other people.
--Could also have forums where people interact and uplift each other
+- Provide mental health care for those struggling with public anxiety
+- Could be in the form of positive advice/notes from ai or other people.
+- Could also have forums where people interact and uplift each other
 
 ## User Story 7:
 **As someone who wants to start building strength and muscle seriously** but doesn't have the time or money to research or pay someone, I want an app to tell me what to do.
