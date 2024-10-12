@@ -64,7 +64,7 @@ JEFIT’s niche focus on strength training is a key part of its appeal to bodybu
 ## Why Our Product Stands Out
 Our app combines workout tracking, nutrition management, and social engagement into a single, cohesive platform. Unlike competitors that focus primarily on one area, we offer a holistic experience that appeals to users who want to manage all aspects of their health and wellness in one place. By offering features for exercise, diet, and community interaction, we cater to a wide range of fitness levels and goals, providing a comprehensive solution that adapts to diverse user needs.
 
-![Competition Analysis Graph](https://i.imgur.com/9GhPULn.png)
+![Competition Analysis Graph](https://i.imgur.com/w0j09Mk.png)
 
 
 
