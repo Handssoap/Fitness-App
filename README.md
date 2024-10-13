@@ -26,13 +26,13 @@ git clone https://github.com/EECS3311F24/project-latte.git
 4. Install any dependencies that pop up (y)
 
 ```
-    yarn install
+    npm install
 ```
 
 5. Run the project
 
 ```
-  yarn start
+  npm start
 ```
 
 6. Open the project on your browser by pressing w in the terminal
