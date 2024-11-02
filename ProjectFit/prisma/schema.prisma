@@ -1,0 +1,33 @@
+#mongo db database
+//// EXAMPLE CODE ONLY NOT ACTUAL CODE JUST AN EXAMPLE
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+//// EXAMPLE CODE ONLY NOT ACTUAL CODE JUST AN EXAMPLE
+generator client {
+  provider = "prisma-client-js"
+}
+//// EXAMPLE CODE ONLY NOT ACTUAL CODE JUST AN EXAMPLE
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  email     String   @unique
+  name      String?
+  role      Role     @default(USER)
+  posts     Post[]
+}
+//// EXAMPLE CODE ONLY NOT ACTUAL CODE JUST AN EXAMPLE
+model Post {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+}
+//// EXAMPLE CODE ONLY NOT ACTUAL CODE JUST AN EXAMPLE
+enum Role {
+  USER
+  ADMIN
