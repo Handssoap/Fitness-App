@@ -16,26 +16,20 @@ With this, we aim to help users reach their desired physical goal while providin
 git clone https://github.com/EECS3311F24/project-latte.git
 ```
 
-3. Navigate to the project directory (run the command below in the terminal)
-   cd ProjectFit
-
-```
-    cd ProjectFit
-```
-
-4. Install any dependencies that pop up (y)
+3. Install any dependencies that pop up (y)
 
 ```
     npm install
 ```
 
-5. Run the project
+4. Run the project
 
 ```
   npm start
 ```
 
-6. Open the project on your browser by pressing w in the terminal
+5. Open the project on your browser by pressing w in the terminal
 
 ## Contribution:
+
 We do not use git flow. However, new features are branched and named according to the feature. Any bugs will be brought up with GitHub issues. Before merging with the main branch, a pull request is made and reviewed by one or more team members.
