@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, FlatList, Image, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, FlatList, Image, ActivityIndicator, Text } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -19,17 +19,39 @@ interface Exercise {
 
 const Workouts: React.FC = () => {
   const [exercises, setExercises] = useState<Exercise[]>([]); // List of exercises from API
+  const [selectedMuscle, setSelectedMuscle] = useState<string>('biceps'); // Selected muscle group
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
   const [workoutExercises, setWorkoutExercises] = useState<Exercise[]>([]); // User's selected exercises
-  const [loading, setLoading] = useState<boolean>(true); // Loading state
+  const [loading, setLoading] = useState<boolean>(false); // Loading state
   const [error, setError] = useState<string | null>(null); // Error state
 
+  const muscleOptions = [
+    'abdominals',
+    'abductors',
+    'adductors',
+    'biceps',
+    'calves',
+    'chest',
+    'forearms',
+    'glutes',
+    'hamstrings',
+    'lats',
+    'lower_back',
+    'middle_back',
+    'neck',
+    'quadriceps',
+    'traps',
+    'triceps',
+  ];
+
   useEffect(() => {
-    // Fetch exercises from API
+    // Fetch exercises when selectedMuscle changes
     const fetchExercises = async () => {
       try {
-        const muscle = 'biceps'; // You can make this dynamic
-        const apiUrl = `https://api.api-ninjas.com/v1/exercises?muscle=${muscle}`;
+        setLoading(true);
+        setError(null);
+        setSelectedExercise(null);
+        const apiUrl = `https://api.api-ninjas.com/v1/exercises?muscle=${selectedMuscle}`;
         const response = await fetch(apiUrl, {
           headers: {
             'X-Api-Key': API_KEY_WORKOUTS,
@@ -51,7 +73,6 @@ const Workouts: React.FC = () => {
             instructions: exercise.instructions,
           }));
           setExercises(exercisesWithImages);
-          setLoading(false);
         } else {
           const errorData = await response.text();
           throw new Error(`Error ${response.status}: ${errorData}`);
@@ -59,11 +80,12 @@ const Workouts: React.FC = () => {
       } catch (err: any) {
         console.error('Error fetching exercises:', err);
         setError(err.message);
+      } finally {
         setLoading(false);
       }
     };
     fetchExercises();
-  }, []);
+  }, [selectedMuscle]);
 
   const addExerciseToWorkout = () => {
     if (selectedExercise) {
@@ -78,22 +100,6 @@ const Workouts: React.FC = () => {
     setWorkoutExercises(workoutExercises.filter((ex) => ex.id !== exerciseId));
   };
 
-  if (loading) {
-    return (
-      <View className="flex-1 justify-center items-center bg-white dark:bg-gray-900">
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View className="flex-1 justify-center items-center p-5 bg-white dark:bg-gray-900">
-        <ThemedText className="text-red-500 text-center">{error}</ThemedText>
-      </View>
-    );
-  }
-
   return (
     <View className="flex-1 bg-white dark:bg-gray-900">
       <ThemedView className="p-5">
@@ -104,25 +110,60 @@ const Workouts: React.FC = () => {
           Create Your Workout
         </ThemedText>
 
-        {/* Dropdown Picker */}
+        {/* Muscle Group Picker */}
+        <View className="mt-5">
+          <ThemedText className="text-base text-gray-800 dark:text-white mb-2">
+            Select a Muscle Group:
+          </ThemedText>
+          <View className="border border-gray-300 dark:border-gray-700 rounded-md">
+            <Picker
+              selectedValue={selectedMuscle}
+              onValueChange={(itemValue: string) => setSelectedMuscle(itemValue)}
+              style={{ height: 50, color: '#000' }}
+            >
+              {muscleOptions.map((muscle) => (
+                <Picker.Item key={muscle} label={muscle} value={muscle} />
+              ))}
+            </Picker>
+          </View>
+        </View>
+
+        {/* Exercise Picker */}
         <View className="mt-5">
           <ThemedText className="text-base text-gray-800 dark:text-white mb-2">
             Select an Exercise:
           </ThemedText>
           <View className="border border-gray-300 dark:border-gray-700 rounded-md">
-            <Picker
-              selectedValue={selectedExercise?.id || ''}
-              onValueChange={(itemValue: string) => {
-                const exercise = exercises.find((ex) => ex.id === itemValue) || null;
-                setSelectedExercise(exercise);
-              }}
-              style={{ height: 50, color: '#000' }}
-            >
-              <Picker.Item label="-- Select Exercise --" value="" />
-              {exercises.map((exercise) => (
-                <Picker.Item key={exercise.id} label={exercise.name} value={exercise.id} />
-              ))}
-            </Picker>
+            {loading ? (
+              <View className="justify-center items-center h-12">
+                <ActivityIndicator size="small" color="#0000ff" />
+              </View>
+            ) : error ? (
+              <View className="p-2">
+                <ThemedText className="text-red-500">{error}</ThemedText>
+              </View>
+            ) : exercises.length > 0 ? (
+              <Picker
+                selectedValue={selectedExercise?.id || ''}
+                onValueChange={(itemValue: string) => {
+                  const exercise = exercises.find((ex) => ex.id === itemValue) || null;
+                  setSelectedExercise(exercise);
+                }}
+                style={{ height: 50, color: '#000' }}
+                enabled={exercises.length > 0}
+              >
+                <Picker.Item label="-- Select Exercise --" value="" />
+                {exercises.map((exercise) => (
+                  <Picker.Item key={exercise.id} label={exercise.name} value={exercise.id} />
+                ))}
+              </Picker>
+            ) : (
+              <View className="p-2">
+                <ThemedText className="text-gray-600 dark:text-gray-400">
+                  No exercises found for this muscle group.
+                </ThemedText>
+              </View>
+            )}
           </View>
           <TouchableOpacity
             className={`mt-3 py-2 px-4 rounded-full ${
