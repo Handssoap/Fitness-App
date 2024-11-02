@@ -12,7 +12,9 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import Ionicons from "@expo/vector-icons/Ionicons";
 // import { API_KEY_WORKOUTS } from '@env';
-const API_KEY_WORKOUTS = process.env.EXPO_PUBLIC_API_KEY_WORKOUTS;
+
+const API_KEY_WORKOUTS =
+  process.env.EXPO_PUBLIC_API_KEY_WORKOUTS 
 interface Exercise {
   id: string;
   name: string;
