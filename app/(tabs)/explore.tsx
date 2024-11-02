@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, FlatList, Image, ActivityIndicator, Text } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { API_KEY_WORKOUTS } from '@env';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  TouchableOpacity,
+  FlatList,
+  Image,
+  ActivityIndicator,
+  Text,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import Ionicons from "@expo/vector-icons/Ionicons";
+// import { API_KEY_WORKOUTS } from '@env';
 
+const API_KEY_WORKOUTS =
+  process.env.EXPO_PUBLIC_API_KEY_WORKOUTS 
 interface Exercise {
   id: string;
   name: string;
@@ -19,33 +28,36 @@ interface Exercise {
 
 const Workouts: React.FC = () => {
   const [exercises, setExercises] = useState<Exercise[]>([]); // List of exercises from API
-  const [selectedMuscle, setSelectedMuscle] = useState<string>('biceps'); // Selected muscle group
-  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
+  const [selectedMuscle, setSelectedMuscle] = useState<string>("biceps"); // Selected muscle group
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
+    null
+  );
   const [workoutExercises, setWorkoutExercises] = useState<Exercise[]>([]); // User's selected exercises
   const [loading, setLoading] = useState<boolean>(false); // Loading state
   const [error, setError] = useState<string | null>(null); // Error state
 
   const muscleOptions = [
-    'abdominals',
-    'abductors',
-    'adductors',
-    'biceps',
-    'calves',
-    'chest',
-    'forearms',
-    'glutes',
-    'hamstrings',
-    'lats',
-    'lower_back',
-    'middle_back',
-    'neck',
-    'quadriceps',
-    'traps',
-    'triceps',
+    "abdominals",
+    "abductors",
+    "adductors",
+    "biceps",
+    "calves",
+    "chest",
+    "forearms",
+    "glutes",
+    "hamstrings",
+    "lats",
+    "lower_back",
+    "middle_back",
+    "neck",
+    "quadriceps",
+    "traps",
+    "triceps",
   ];
 
   useEffect(() => {
     // Fetch exercises when selectedMuscle changes
+
     const fetchExercises = async () => {
       try {
         setLoading(true);
@@ -54,31 +66,33 @@ const Workouts: React.FC = () => {
         const apiUrl = `https://api.api-ninjas.com/v1/exercises?muscle=${selectedMuscle}`;
         const response = await fetch(apiUrl, {
           headers: {
-            'X-Api-Key': API_KEY_WORKOUTS,
+            "X-Api-Key": API_KEY_WORKOUTS,
           },
         });
 
         if (response.ok) {
           const data: any[] = await response.json();
-
+          console.log(data);
           // Map data to include an 'id' and 'image' property
-          const exercisesWithImages: Exercise[] = data.map((exercise: any, index: number) => ({
-            id: index.toString(),
-            name: exercise.name,
-            image: exercise.image || 'https://example.com/default-image.png',
-            type: exercise.type,
-            muscle: exercise.muscle,
-            equipment: exercise.equipment,
-            difficulty: exercise.difficulty,
-            instructions: exercise.instructions,
-          }));
+          const exercisesWithImages: Exercise[] = data.map(
+            (exercise: any, index: number) => ({
+              id: index.toString(),
+              name: exercise.name,
+              image: exercise.image || "https://example.com/default-image.png",
+              type: exercise.type,
+              muscle: exercise.muscle,
+              equipment: exercise.equipment,
+              difficulty: exercise.difficulty,
+              instructions: exercise.instructions,
+            })
+          );
           setExercises(exercisesWithImages);
         } else {
           const errorData = await response.text();
           throw new Error(`Error ${response.status}: ${errorData}`);
         }
       } catch (err: any) {
-        console.error('Error fetching exercises:', err);
+        console.error("Error fetching exercises:", err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -118,8 +132,10 @@ const Workouts: React.FC = () => {
           <View className="border border-gray-300 dark:border-gray-700 rounded-md">
             <Picker
               selectedValue={selectedMuscle}
-              onValueChange={(itemValue: string) => setSelectedMuscle(itemValue)}
-              style={{ height: 50, color: '#000' }}
+              onValueChange={(itemValue: string) =>
+                setSelectedMuscle(itemValue)
+              }
+              style={{ height: 50, color: "#000" }}
             >
               {muscleOptions.map((muscle) => (
                 <Picker.Item key={muscle} label={muscle} value={muscle} />
@@ -144,17 +160,22 @@ const Workouts: React.FC = () => {
               </View>
             ) : exercises.length > 0 ? (
               <Picker
-                selectedValue={selectedExercise?.id || ''}
+                selectedValue={selectedExercise?.id || ""}
                 onValueChange={(itemValue: string) => {
-                  const exercise = exercises.find((ex) => ex.id === itemValue) || null;
+                  const exercise =
+                    exercises.find((ex) => ex.id === itemValue) || null;
                   setSelectedExercise(exercise);
                 }}
-                style={{ height: 50, color: '#000' }}
+                style={{ height: 50, color: "#000" }}
                 enabled={exercises.length > 0}
               >
                 <Picker.Item label="-- Select Exercise --" value="" />
                 {exercises.map((exercise) => (
-                  <Picker.Item key={exercise.id} label={exercise.name} value={exercise.id} />
+                  <Picker.Item
+                    key={exercise.id}
+                    label={exercise.name}
+                    value={exercise.id}
+                  />
                 ))}
               </Picker>
             ) : (
@@ -167,12 +188,14 @@ const Workouts: React.FC = () => {
           </View>
           <TouchableOpacity
             className={`mt-3 py-2 px-4 rounded-full ${
-              selectedExercise ? 'bg-blue-500' : 'bg-gray-400'
+              selectedExercise ? "bg-blue-500" : "bg-gray-400"
             }`}
             onPress={addExerciseToWorkout}
             disabled={!selectedExercise}
           >
-            <ThemedText className="text-white text-center">Add Exercise</ThemedText>
+            <ThemedText className="text-white text-center">
+              Add Exercise
+            </ThemedText>
           </TouchableOpacity>
         </View>
 
@@ -204,7 +227,9 @@ const Workouts: React.FC = () => {
                     </ThemedText>
                     {/* You can display additional info here */}
                   </View>
-                  <TouchableOpacity onPress={() => removeExerciseFromWorkout(item.id)}>
+                  <TouchableOpacity
+                    onPress={() => removeExerciseFromWorkout(item.id)}
+                  >
                     <Ionicons name="trash-outline" size={24} color="#FF6F61" />
                   </TouchableOpacity>
                 </View>
