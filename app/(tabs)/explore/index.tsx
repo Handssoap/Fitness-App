@@ -37,7 +37,7 @@ const Workouts: React.FC = () => {
   const [workoutExercises, setWorkoutExercises] = useState<Exercise[]>([]); // User's selected exercises
   const [loading, setLoading] = useState<boolean>(false); // Loading state
   const [error, setError] = useState<string | null>(null); // Error state
-
+  
   const muscleOptions = [
     "abdominals",
     "abductors",

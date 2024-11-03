@@ -1,6 +1,7 @@
 
-import { PrismaClient } from "@prisma/client";
 import { Webhook } from "svix";
+import { extendedClient } from "../../lib/prisma";
+
 /**
  * Webhook endpoint used by clerk to sync clerk user info
  * to the database
@@ -60,9 +61,9 @@ export async function POST(req: Request, res: Response) {
   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
   // console.log("Webhook body:", evt.data);
   const data = evt.data;
-  const prisma = new PrismaClient();
+
   const createOrUpdateProfile = async () => {
-    return await prisma.profile.upsert({
+    return await extendedClient.profile.upsert({
       where: {
         userId: data.id,
       },
@@ -82,7 +83,7 @@ export async function POST(req: Request, res: Response) {
   };
 
   const deleteProfile = async () => {
-    await prisma.profile.delete({
+    await extendedClient.profile.delete({
       where: {
         userId: data.id,
       },
@@ -102,7 +103,7 @@ export async function POST(req: Request, res: Response) {
     }
   } catch (error) {
     if (error) {
-      console.log(error)
+      console.log(error);
       return new Response("User Creation failed", {
         status: 500,
       });
