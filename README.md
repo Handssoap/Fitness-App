@@ -6,6 +6,27 @@ Our app not only creates personalized workout plans based on the user's goals bu
 
 With this, we aim to help users reach their desired physical goal while providing a personalized, ever-evolving experience that supports them throughout their fitness journey.
 
+## Set up Dependencies
+
+### Make `.env` file
+```
+cp .env.example .env
+```
+
+### API Ninja
+Head to [Api Ninja](https://api-ninjas.com/) and get a free api token and add to your `.env` file. 
+```
+EXPO_PUBLIC_API_KEY_WORKOUTS=...
+```
+### Set up Clerk
+1. Create a new Clerk app [here](https://clerk.com/)
+2. In your `.env` file add the api keys from the dashboard. e.g
+```
+  EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=...
+```
+### Set up Supabase
+1. We followed the [docs](https://supabase.com/partners/integrations/prisma) to connect supabase with prisma
+
 ## Installation:
 
 1. Make sure node.js is installed or up-to-date https://nodejs.org/en
