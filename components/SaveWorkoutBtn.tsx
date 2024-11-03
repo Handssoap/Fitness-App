@@ -10,7 +10,7 @@ import { ThemedText } from "./ThemedText";
 import { cn } from "../lib/utils";
 
 export type SaveWorkOutButtonProps = {
-  onPress: () => void;
+  onPress: () => Promise<void>;
   className?: string;
   buttonText: string;
 };

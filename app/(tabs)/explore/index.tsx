@@ -37,7 +37,7 @@ const Workouts: React.FC = () => {
   const [workoutExercises, setWorkoutExercises] = useState<Exercise[]>([]); // User's selected exercises
   const [loading, setLoading] = useState<boolean>(false); // Loading state
   const [error, setError] = useState<string | null>(null); // Error state
-  
+
   const muscleOptions = [
     "abdominals",
     "abductors",
@@ -116,11 +116,53 @@ const Workouts: React.FC = () => {
     setWorkoutExercises(workoutExercises.filter((ex) => ex.id !== exerciseId));
   };
 
-  /**
-   * This method saves the workout
-   */
-  const saveWorkOut = () => {
-    console.log(workoutExercises);
+  const saveWorkout = async () => {
+    if (workoutExercises.length === 0) {
+      alert("Please add at least one exercise to your workout.");
+      return;
+    }
+
+    const profileId = "user-profile-id"; // fetch user id later on
+
+    const workoutData = {
+      name: "My Custom Workout",
+      description: "A custom workout created by the user.",
+      imageUrl: "https://example.com/default-image.png",
+      exercises: workoutExercises.map((exercise) => ({
+        id: exercise.id,
+        name: exercise.name,
+        imageUrl: exercise.image,
+        type: exercise.type,
+        muscle: exercise.muscle,
+        equipment: exercise.equipment,
+        difficulty: exercise.difficulty,
+        instructions: exercise.instructions,
+      })),
+    };
+
+    try {
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/workouts`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(workoutData),
+        }
+      );
+
+      if (response.ok) {
+        alert("Workout saved successfully!");
+        setWorkoutExercises([]); // Clear the workout exercises after saving
+      } else {
+        const errorData = await response.text();
+        throw new Error(`Error saving workout: ${errorData}`);
+      }
+    } catch (error: any) {
+      console.error("Error saving workout:", error);
+      setError(error.message);
+    }
   };
 
   return (
@@ -248,7 +290,7 @@ const Workouts: React.FC = () => {
         </View>
 
         {/* Save Workout Button */}
-        <SaveButton buttonText="Save Workout" onPress={saveWorkOut} />
+        <SaveButton buttonText="Save Workout" onPress={saveWorkout} />
       </ThemedView>
     </View>
   );
