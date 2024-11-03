@@ -11,10 +11,12 @@ import { Picker } from "@react-native-picker/picker";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { UserButton } from "@clerk/clerk-expo/dist/web/uiComponents";
+import SaveButton from "../../../components/SaveWorkoutBtn";
+
 // import { API_KEY_WORKOUTS } from '@env';
 
-const API_KEY_WORKOUTS =
-  process.env.EXPO_PUBLIC_API_KEY_WORKOUTS 
+const API_KEY_WORKOUTS = process.env.EXPO_PUBLIC_API_KEY_WORKOUTS;
 interface Exercise {
   id: string;
   name: string;
@@ -120,32 +122,35 @@ const Workouts: React.FC = () => {
       return;
     }
 
-    const profileId = "user-profile-id" // fetch user id later on
+    const profileId = "user-profile-id"; // fetch user id later on
 
     const workoutData = {
-      name: "My Custom Workout", 
+      name: "My Custom Workout",
       description: "A custom workout created by the user.",
       imageUrl: "https://example.com/default-image.png",
       exercises: workoutExercises.map((exercise) => ({
-        id: exercise.id, 
+        id: exercise.id,
         name: exercise.name,
-        imageUrl: exercise.image, 
+        imageUrl: exercise.image,
         type: exercise.type,
-        muscle: exercise.muscle, 
-        equipment: exercise.equipment, 
-        difficulty: exercise.difficulty, 
-        instructions: exercise.instructions, 
+        muscle: exercise.muscle,
+        equipment: exercise.equipment,
+        difficulty: exercise.difficulty,
+        instructions: exercise.instructions,
       })),
     };
 
     try {
-      const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/workouts`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(workoutData),
-      });
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/workouts`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(workoutData),
+        }
+      );
 
       if (response.ok) {
         alert("Workout saved successfully!");
@@ -283,18 +288,9 @@ const Workouts: React.FC = () => {
             />
           )}
         </View>
-        
+
         {/* Save Workout Button */}
-        <View className="mt-5 items-center">
-          <TouchableOpacity
-            className="bg-green-500 py-3 px-10 rounded-full shadow-lg"
-            onPress={saveWorkout}
-          >
-            <ThemedText className="text-white text-lg font-semibold">
-              Save Workout
-            </ThemedText>
-          </TouchableOpacity>
-        </View>
+        <SaveButton buttonText="Save Workout" onPress={saveWorkout} />
       </ThemedView>
     </View>
   );
