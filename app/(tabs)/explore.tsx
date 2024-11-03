@@ -114,6 +114,52 @@ const Workouts: React.FC = () => {
     setWorkoutExercises(workoutExercises.filter((ex) => ex.id !== exerciseId));
   };
 
+  const saveWorkout = async () => {
+    if (workoutExercises.length === 0) {
+      alert("Please add at least one exercise to your workout.");
+      return;
+    }
+
+    const profileId = "user-profile-id" // fetch user id later on
+
+    const workoutData = {
+      name: "My Custom Workout", 
+      description: "A custom workout created by the user.",
+      imageUrl: "https://example.com/default-image.png",
+      exercises: workoutExercises.map((exercise) => ({
+        id: exercise.id, 
+        name: exercise.name,
+        imageUrl: exercise.image, 
+        type: exercise.type,
+        muscle: exercise.muscle, 
+        equipment: exercise.equipment, 
+        difficulty: exercise.difficulty, 
+        instructions: exercise.instructions, 
+      })),
+    };
+
+    try {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/workouts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(workoutData),
+      });
+
+      if (response.ok) {
+        alert("Workout saved successfully!");
+        setWorkoutExercises([]); // Clear the workout exercises after saving
+      } else {
+        const errorData = await response.text();
+        throw new Error(`Error saving workout: ${errorData}`);
+      }
+    } catch (error: any) {
+      console.error("Error saving workout:", error);
+      setError(error.message);
+    }
+  };
+
   return (
     <View className="flex-1 bg-white dark:bg-gray-900">
       <ThemedView className="p-5">
@@ -237,14 +283,12 @@ const Workouts: React.FC = () => {
             />
           )}
         </View>
-
+        
         {/* Save Workout Button */}
         <View className="mt-5 items-center">
           <TouchableOpacity
             className="bg-green-500 py-3 px-10 rounded-full shadow-lg"
-            onPress={() => {
-              // Implement save functionality
-            }}
+            onPress={saveWorkout}
           >
             <ThemedText className="text-white text-lg font-semibold">
               Save Workout
