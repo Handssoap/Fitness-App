@@ -11,11 +11,11 @@ Facilitator: Max Chornenkyy
 
 Name	Attended (Yes/No)
 
-Max ChornenkyyYes
-Vince Flores	Yes
-Manille Jao Villacorta	Yes
-Subhan Hanif	Yes
-Jiawei Yang	Yes
+Max Chornenkyy Yes 
+Vince Flores	Yes 
+Manille Jao Villacorta	Yes 
+Subhan Hanif	Yes 
+Jiawei Yang	Yes 
 
 Note: All participants attended the meeting and actively contributed to the discussions.
 
