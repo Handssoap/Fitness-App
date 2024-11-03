@@ -7,7 +7,7 @@ Location: Zoom Virtual Meeting
 Facilitator: Max Chornenkyy
 Note Taker: Vince Flores
 2. Participants and Team Capacity
-List of all team members, their roles, capacity (in hours), and indication of their attendance.
+List of all team members and indication of their attendance.
 
 Name	Attended (Yes/No)
 Max Chornenkyy	Yes
