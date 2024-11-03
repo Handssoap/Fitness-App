@@ -5,7 +5,8 @@ Date: October 25, 2023
 Time: 10:00 AM - 11:30 AM
 Location: Zoom Virtual Meeting
 Facilitator: Max Chornenkyy
-Note Taker: Vince Flores
+
+
 2. Participants and Team Capacity
 List of all team members and indication of their attendance.
 
