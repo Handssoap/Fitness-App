@@ -51,7 +51,7 @@ Epic 4: User Interface Enhancements
 Key Features:
 UI Improvements: Polished frontend components for a consistent and visually appealing interface (User Story 009).
 Responsive Layouts: Adjusts layouts to ensure compatibility across device sizes (User Story 010).
-Themed Views and Dark Mode: Integrates dark mode and themed components for a user-friendly experience (User Story 011).
+
 5. User Stories for Completion
 Specific user stories that are prioritized for completion in this release.
 
