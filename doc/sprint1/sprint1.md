@@ -48,7 +48,7 @@ Task 1: Configure Clerk in the app (Vince Flores)
 Task 2: Create registration screen UI and form validation (Max Chornenkyy)
 Task 3: Integrate registration form with Clerk API and handle errors (Vince Flores) 
 User Story 002: User Login with Clerk Authentication
-Task 1: Set up login screen UI (Vince Flores) - 5 hrs
+Task 1: Set up login screen UI (Vince Flores)
 Task 2: Implement Clerk login integration and session management (Vince Flores)
 Task 3: Add error handling and navigate upon success (Vince Flores)
 User Story 003: Profile Setup and Management
@@ -61,9 +61,8 @@ Task 3: Design dropdown for muscle group selection (Max Chornenkyy)
 Task 4: Implement loading indicators and error handling (Jiawei Yang)
 User Story 009: Basic Frontend Layout and UI Enhancements
 Task 1: Set up initial layout structure with Tailwind-inspired classes (Jiawei Yang)
-Task 2: Design and integrate dark mode and themed views (Manille Jao Villacorta) 
-Task 3: Add headers, navigation components, and buttons (Manille Jao Villacorta)
-Task 4: Test UI elements on various devices and orientations (Jiawei Yang)
+Task 2: Add headers, navigation components, and buttons (Manille Jao Villacorta)
+Task 3: Test UI elements on various devices and orientations (Jiawei Yang)
 User Story 010: Responsive Layout for Various Screen Sizes
 Task 1: Adjust layout for both mobile and tablet views (Manille Jao Villacorta)
 Task 2: Implement responsive styles for multiple screen sizes (Manille Jao Villacorta)
