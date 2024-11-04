@@ -78,8 +78,6 @@ Clerk API: Facilitates authentication with Clerk’s service.
 3. System Architecture Diagram
 The Fitness App architecture follows a three-tier structure consisting of Frontend, Backend, and Database components, with external services for authentication and exercise data.
 
-sql
-Copy code
       +--------------------------+
       |      Frontend (React     |
       |      Native)             |
