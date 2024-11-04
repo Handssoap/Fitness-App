@@ -69,3 +69,7 @@ Run the project
 ## Contribution:
 
 We do not use git flow. However, new features are branched and named according to the feature. Any bugs will be brought up with GitHub issues. Before merging with the main branch, a pull request is made and reviewed by one or more team members.
+
+## Sample Demo of the Project 
+
+A demonstration of our app's current implementation is shown in this [video link](https://drive.google.com/file/d/14MwtScbs8dhyQpm-SW7bxG0saV1TD8VQ/view).
