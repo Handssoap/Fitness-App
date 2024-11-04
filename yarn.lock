@@ -1252,6 +1252,17 @@
   dependencies:
     "@clerk/types" "4.29.0"
 
+"@clerk/shared@^2.11.3":
+  version "2.11.3"
+  resolved "https://registry.npmjs.org/@clerk/shared/-/shared-2.11.3.tgz"
+  integrity sha512-twA/vbfhLdXU4kCFRme9kP0juzh1FNcKg/HoVaXrT7WaiN68fnpD0TtwVc6jmKV4bj5mjh3TBxrvrp3HOQjigw==
+  dependencies:
+    "@clerk/types" "4.29.0"
+    glob-to-regexp "0.4.1"
+    js-cookie "3.0.5"
+    std-env "^3.7.0"
+    swr "^2.2.0"
+
 "@clerk/shared@2.11.0":
   version "2.11.0"
   resolved "https://registry.npmjs.org/@clerk/shared/-/shared-2.11.0.tgz"
@@ -6533,6 +6544,29 @@ lightningcss-darwin-arm64@1.27.0:
   version "1.27.0"
   resolved "https://registry.npmjs.org/lightningcss-darwin-arm64/-/lightningcss-darwin-arm64-1.27.0.tgz"
   integrity sha512-Gl/lqIXY+d+ySmMbgDf0pgaWSqrWYxVHoc88q+Vhf2YNzZ8DwoRzGt5NZDVqqIW5ScpSnmmjcgXP87Dn2ylSSQ==
+
+lightningcss-darwin-arm64@1.28.1:
+  version "1.28.1"
+  resolved "https://registry.npmjs.org/lightningcss-darwin-arm64/-/lightningcss-darwin-arm64-1.28.1.tgz"
+  integrity sha512-VG3vvzM0m/rguCdm76DdobNeNJnHK+jWcdkNLFWHLh9YCotRvbRIt45JxwcHlIF8TDqWStVLTdghq5NaigVCBQ==
+
+lightningcss@^1.28.1:
+  version "1.28.1"
+  resolved "https://registry.npmjs.org/lightningcss/-/lightningcss-1.28.1.tgz"
+  integrity sha512-KRDkHlLlNj3DWh79CDt93fPlRJh2W1AuHV0ZSZAMMuN7lqlsZTV5842idfS1urWG8q9tc17velp1gCXhY7sLnQ==
+  dependencies:
+    detect-libc "^1.0.3"
+  optionalDependencies:
+    lightningcss-darwin-arm64 "1.28.1"
+    lightningcss-darwin-x64 "1.28.1"
+    lightningcss-freebsd-x64 "1.28.1"
+    lightningcss-linux-arm-gnueabihf "1.28.1"
+    lightningcss-linux-arm64-gnu "1.28.1"
+    lightningcss-linux-arm64-musl "1.28.1"
+    lightningcss-linux-x64-gnu "1.28.1"
+    lightningcss-linux-x64-musl "1.28.1"
+    lightningcss-win32-arm64-msvc "1.28.1"
+    lightningcss-win32-x64-msvc "1.28.1"
 
 lightningcss@~1.19.0:
   version "1.19.0"

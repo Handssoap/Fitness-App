@@ -1,78 +1,105 @@
 import React from 'react';
-import { ScrollView, View, TouchableOpacity } from 'react-native';
+import { ScrollView, View, TouchableOpacity, Image } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 function Home() {
   return (
     <ScrollView className="flex-1 bg-white dark:bg-gray-900">
-      <ThemedView className="p-5">
-        {/* Greeting */}
-        <ThemedText className="text-xl font-semibold text-gray-900 dark:text-white">
-          Good Morning, John!
-        </ThemedText>
-        <ThemedText className="text-base text-gray-600 dark:text-gray-300 mt-1">
-          "Your limitation—it's only your imagination."
-        </ThemedText>
-
-        {/* Today's Workout */}
-        <View className="mt-6 p-5 bg-purple-100 dark:bg-purple-800 rounded-lg">
-          <ThemedText className="text-lg font-bold text-gray-900 dark:text-white">
-            Today's Workout
+      {/* Header with Background Image */}
+      <View className="relative h-56">
+        <Image
+          source={{ uri: 'https://example.com/header-image.jpg' }} // Replace with a suitable URL or local image
+          className="absolute w-full h-full object-cover rounded-b-3xl opacity-90"
+        />
+        <View className="absolute bottom-5 left-5">
+          <ThemedText className="text-2xl font-bold text-white shadow-lg">
+            Good Morning, John!
           </ThemedText>
-          <ThemedText className="text-base text-gray-700 dark:text-gray-300 mt-2">
+          <ThemedText className="text-lg text-white italic mt-1">
+            "Your limitation—it's only your imagination."
+          </ThemedText>
+        </View>
+      </View>
+
+      <ThemedView className="p-5">
+        {/* Today's Workout Section */}
+        <View className="mt-6 p-5 bg-purple-100 dark:bg-purple-800 rounded-lg shadow-lg">
+          <View className="flex-row items-center mb-2">
+            <Ionicons name="barbell-outline" size={24} color="#673AB7" />
+            <ThemedText className="ml-2 text-lg font-bold text-gray-900 dark:text-white">
+              Today's Workout
+            </ThemedText>
+          </View>
+          <ThemedText className="text-base text-gray-700 dark:text-gray-300">
             HIIT Cardio Blast - 30 mins
           </ThemedText>
-          <TouchableOpacity className="mt-4 bg-purple-500 py-2 px-4 rounded-full">
-            <ThemedText className="text-white text-center">Start Now</ThemedText>
+          <TouchableOpacity className="mt-4 bg-purple-500 py-3 rounded-full shadow-md">
+            <ThemedText className="text-white text-center text-base font-semibold">
+              Start Now
+            </ThemedText>
           </TouchableOpacity>
         </View>
 
-        {/* Progress Overview */}
+        {/* Progress Overview Section */}
         <View className="mt-6">
-          <ThemedText className="text-lg font-bold text-gray-900 dark:text-white mb-3">
-            This Week
-          </ThemedText>
-          {/* Insert progress chart or summary here */}
-          <View className="h-40 bg-gray-200 dark:bg-gray-700 rounded-lg" />
+          <View className="flex-row items-center mb-3">
+            <MaterialIcons name="leaderboard" size={24} color="#FF9800" />
+            <ThemedText className="ml-2 text-lg font-bold text-gray-900 dark:text-white">
+              This Week
+            </ThemedText>
+          </View>
+          <View className="h-40 bg-gray-200 dark:bg-gray-700 rounded-lg shadow-lg flex items-center justify-center">
+            {/* Integrate a progress chart here */}
+            <ThemedText className="text-gray-600 dark:text-gray-300">
+              Weekly Progress Chart
+            </ThemedText>
+          </View>
         </View>
 
-        {/* Quick Actions */}
-        <View className="mt-6 flex-row justify-around">
-          <TouchableOpacity className="items-center">
-            <View className="bg-blue-500 p-4 rounded-full">
-              <Ionicons name="add-circle-outline" size={24} color="#fff" />
+        {/* Quick Actions Section */}
+        <View className="mt-6 flex-row justify-between">
+          <TouchableOpacity className="items-center flex-1 mx-1">
+            <View className="bg-green-500 p-4 rounded-full shadow-lg">
+              <Ionicons name="add-circle-outline" size={28} color="#fff" />
             </View>
-            <ThemedText className="mt-2 text-gray-800 dark:text-white">
+            <ThemedText className="mt-2 text-gray-800 dark:text-white font-medium">
               Log Workout
             </ThemedText>
           </TouchableOpacity>
-          <TouchableOpacity className="items-center">
-            <View className="bg-green-500 p-4 rounded-full">
-              <Ionicons name="nutrition-outline" size={24} color="#fff" />
+          <TouchableOpacity className="items-center flex-1 mx-1">
+            <View className="bg-yellow-500 p-4 rounded-full shadow-lg">
+              <Ionicons name="restaurant-outline" size={28} color="#fff" />
             </View>
-            <ThemedText className="mt-2 text-gray-800 dark:text-white">
+            <ThemedText className="mt-2 text-gray-800 dark:text-white font-medium">
               Track Meals
             </ThemedText>
           </TouchableOpacity>
-          <TouchableOpacity className="items-center">
-            <View className="bg-red-500 p-4 rounded-full">
-              <Ionicons name="heart-outline" size={24} color="#fff" />
+          <TouchableOpacity className="items-center flex-1 mx-1">
+            <View className="bg-pink-500 p-4 rounded-full shadow-lg">
+              <Ionicons name="heart-outline" size={28} color="#fff" />
             </View>
-            <ThemedText className="mt-2 text-gray-800 dark:text-white">
+            <ThemedText className="mt-2 text-gray-800 dark:text-white font-medium">
               Health Stats
             </ThemedText>
           </TouchableOpacity>
         </View>
 
-        {/* Featured Content */}
+        {/* Featured Content Section */}
         <View className="mt-6">
-          <ThemedText className="text-lg font-bold text-gray-900 dark:text-white mb-3">
-            Recommended for You
-          </ThemedText>
-          {/* Insert featured workout or content here */}
-          <View className="h-40 bg-gray-200 dark:bg-gray-700 rounded-lg" />
+          <View className="flex-row items-center mb-3">
+            <MaterialIcons name="stars" size={24} color="#2196F3" />
+            <ThemedText className="ml-2 text-lg font-bold text-gray-900 dark:text-white">
+              Recommended for You
+            </ThemedText>
+          </View>
+          <View className="h-40 bg-gray-200 dark:bg-gray-700 rounded-lg shadow-lg flex items-center justify-center">
+            <ThemedText className="text-gray-600 dark:text-gray-300">
+              Featured Workout or Content
+            </ThemedText>
+          </View>
         </View>
       </ThemedView>
     </ScrollView>
