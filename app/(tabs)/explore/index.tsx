@@ -5,7 +5,6 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
-  Text,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { ThemedText } from "@/components/ThemedText";
@@ -29,14 +28,14 @@ interface Exercise {
 }
 
 const Workouts: React.FC = () => {
-  const [exercises, setExercises] = useState<Exercise[]>([]); // List of exercises from API
-  const [selectedMuscle, setSelectedMuscle] = useState<string>("biceps"); // Selected muscle group
+  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [selectedMuscle, setSelectedMuscle] = useState<string>("biceps");
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
     null
   );
-  const [workoutExercises, setWorkoutExercises] = useState<Exercise[]>([]); // User's selected exercises
-  const [loading, setLoading] = useState<boolean>(false); // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
+  const [workoutExercises, setWorkoutExercises] = useState<Exercise[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const muscleOptions = [
     "abdominals",
@@ -58,8 +57,6 @@ const Workouts: React.FC = () => {
   ];
 
   useEffect(() => {
-    // Fetch exercises when selectedMuscle changes
-
     const fetchExercises = async () => {
       try {
         setLoading(true);
@@ -74,8 +71,6 @@ const Workouts: React.FC = () => {
 
         if (response.ok) {
           const data: any[] = await response.json();
-          console.log(data);
-          // Map data to include an 'id' and 'image' property
           const exercisesWithImages: Exercise[] = data.map(
             (exercise: any, index: number) => ({
               id: index.toString(),
@@ -104,11 +99,8 @@ const Workouts: React.FC = () => {
   }, [selectedMuscle]);
 
   const addExerciseToWorkout = () => {
-    if (selectedExercise) {
-      // Check if exercise is already in the workout
-      if (!workoutExercises.some((ex) => ex.id === selectedExercise.id)) {
-        setWorkoutExercises([...workoutExercises, selectedExercise]);
-      }
+    if (selectedExercise && !workoutExercises.some((ex) => ex.id === selectedExercise.id)) {
+      setWorkoutExercises([...workoutExercises, selectedExercise]);
     }
   };
 
@@ -170,7 +162,7 @@ const Workouts: React.FC = () => {
       <ThemedView className="p-5">
         <ThemedText
           type="title"
-          className="text-center text-3xl my-3 text-gray-900 dark:text-white"
+          className="text-center text-3xl my-3 text-gray-900 dark:text-white font-bold"
         >
           Create Your Workout
         </ThemedText>
@@ -183,9 +175,7 @@ const Workouts: React.FC = () => {
           <View className="border border-gray-300 dark:border-gray-700 rounded-md">
             <Picker
               selectedValue={selectedMuscle}
-              onValueChange={(itemValue: string) =>
-                setSelectedMuscle(itemValue)
-              }
+              onValueChange={(itemValue: string) => setSelectedMuscle(itemValue)}
               style={{ height: 50, color: "#000" }}
             >
               {muscleOptions.map((muscle) => (
@@ -213,8 +203,7 @@ const Workouts: React.FC = () => {
               <Picker
                 selectedValue={selectedExercise?.id || ""}
                 onValueChange={(itemValue: string) => {
-                  const exercise =
-                    exercises.find((ex) => ex.id === itemValue) || null;
+                  const exercise = exercises.find((ex) => ex.id === itemValue) || null;
                   setSelectedExercise(exercise);
                 }}
                 style={{ height: 50, color: "#000" }}
@@ -222,11 +211,7 @@ const Workouts: React.FC = () => {
               >
                 <Picker.Item label="-- Select Exercise --" value="" />
                 {exercises.map((exercise) => (
-                  <Picker.Item
-                    key={exercise.id}
-                    label={exercise.name}
-                    value={exercise.id}
-                  />
+                  <Picker.Item key={exercise.id} label={exercise.name} value={exercise.id} />
                 ))}
               </Picker>
             ) : (
@@ -244,9 +229,7 @@ const Workouts: React.FC = () => {
             onPress={addExerciseToWorkout}
             disabled={!selectedExercise}
           >
-            <ThemedText className="text-white text-center">
-              Add Exercise
-            </ThemedText>
+            <ThemedText className="text-white text-center">Add Exercise</ThemedText>
           </TouchableOpacity>
         </View>
 
@@ -254,7 +237,7 @@ const Workouts: React.FC = () => {
         <View className="mt-5">
           <ThemedText
             type="subtitle"
-            className="text-xl mb-3 text-gray-900 dark:text-white"
+            className="text-xl mb-3 text-gray-900 dark:text-white font-semibold"
           >
             Your Workout Exercises:
           </ThemedText>
@@ -267,20 +250,17 @@ const Workouts: React.FC = () => {
               data={workoutExercises}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <View className="flex-row items-center mb-3">
+                <View className="flex-row items-center mb-3 bg-gray-100 dark:bg-gray-800 p-2 rounded-md shadow">
                   <Image
                     source={{ uri: item.image }}
                     className="w-16 h-16 rounded-md mr-3"
                   />
                   <View className="flex-1">
-                    <ThemedText className="text-base text-gray-800 dark:text-white">
+                    <ThemedText className="text-base text-gray-800 dark:text-white font-medium">
                       {item.name}
                     </ThemedText>
-                    {/* You can display additional info here */}
                   </View>
-                  <TouchableOpacity
-                    onPress={() => removeExerciseFromWorkout(item.id)}
-                  >
+                  <TouchableOpacity onPress={() => removeExerciseFromWorkout(item.id)}>
                     <Ionicons name="trash-outline" size={24} color="#FF6F61" />
                   </TouchableOpacity>
                 </View>
