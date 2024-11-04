@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ThemedText, ThemedView } from '@/components/ThemedText';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 import { useProfile } from '@/ProfileContext';
 
 export default function EditProfile() {

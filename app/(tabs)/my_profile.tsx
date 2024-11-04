@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText, ThemedView } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { useProfile } from '@/ProfileContext'; // Import the useProfile hook
