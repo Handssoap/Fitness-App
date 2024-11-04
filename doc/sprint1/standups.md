@@ -1,4 +1,4 @@
-Standup 1 (October 25, 2023)
+Standup 1 (October 25, 2024)
 
 Team Member: Max Chornenkyy
 
@@ -19,7 +19,7 @@ Today: Continuing to develop the frontend components, focusing on integrating th
 Blockers: Working to ensure smooth integration between Clerk and React Native—testing various configurations.
 
 
-Standup 2 (October 27, 2023)
+Standup 2 (October 27, 2024)
 
 Team Member: Jiawei Yang
 
@@ -34,7 +34,7 @@ Today: Writing test scripts for the authentication flows and reviewing the UI se
 Blockers: None currently, but need more clarity on exercise API integration to start planning test cases for that component.
 
 
-Standup 3 (October 30, 2023)
+Standup 3 (October 30, 2024)
 
 
 Team Member: Max Chornenkyy
@@ -49,7 +49,7 @@ Yesterday: Completed basic test scripts for login and registration flows. Starte
 Today: Testing the exercise browsing functionality and layout. Running tests on the responsiveness of the UI and capturing any bugs for the team.
 Blockers: None, but will coordinate with Subhan if any API-related issues arise in the testing environment.
 
-Standup 4 (November 1, 2023)
+Standup 4 (November 1, 2024)
 
 Team Member: Max Chornenkyy
 
