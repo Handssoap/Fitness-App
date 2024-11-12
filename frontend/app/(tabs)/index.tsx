@@ -5,7 +5,10 @@ import { ThemedView } from '@/components/ThemedView';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
+import { router } from 'expo-router';
+
 function Home() {
+  
   return (
     <ScrollView className="flex-1 bg-white dark:bg-gray-900">
       {/* Header with Background Image */}
@@ -61,7 +64,7 @@ function Home() {
 
         {/* Quick Actions Section */}
         <View className="mt-6 flex-row justify-between">
-          <TouchableOpacity className="items-center flex-1 mx-1">
+          <TouchableOpacity className="items-center flex-1 mx-1" onPress={() => router.push('/log_workout')}>
             <View className="bg-green-500 p-4 rounded-full shadow-lg">
               <Ionicons name="add-circle-outline" size={28} color="#fff" />
             </View>
@@ -69,7 +72,8 @@ function Home() {
               Log Workout
             </ThemedText>
           </TouchableOpacity>
-          <TouchableOpacity className="items-center flex-1 mx-1">
+
+          <TouchableOpacity className="items-center flex-1 mx-1" onPress={() => router.push('/track_meals')}>
             <View className="bg-yellow-500 p-4 rounded-full shadow-lg">
               <Ionicons name="restaurant-outline" size={28} color="#fff" />
             </View>
@@ -77,7 +81,8 @@ function Home() {
               Track Meals
             </ThemedText>
           </TouchableOpacity>
-          <TouchableOpacity className="items-center flex-1 mx-1">
+          
+          <TouchableOpacity className="items-center flex-1 mx-1" onPress={() => router.push('/health_stats')}>
             <View className="bg-pink-500 p-4 rounded-full shadow-lg">
               <Ionicons name="heart-outline" size={28} color="#fff" />
             </View>
