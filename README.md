@@ -27,7 +27,12 @@ git clone https://github.com/EECS3311F24/project-latte.git
 ### Make `.env` file
 
 ```
-cp .env-example .env
+# /frontend
+cp env-example .env
+```
+```
+# /backend
+cp env-example .env
 ```
 
 ### API Ninja
