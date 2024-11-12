@@ -1,11 +1,16 @@
 import React from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useRouter } from 'expo-router';
+import { useProfile } from '@/ProfileContext'; // Import the useProfile hook
 
 function MyProfile() {
+  const { profile } = useProfile(); // Access profile data from context
+  const router = useRouter();
+  
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#FF6F61', dark: '#FF6F61' }}
@@ -18,10 +23,10 @@ function MyProfile() {
     >
       <ThemedView className="p-5 bg-white dark:bg-gray-900">
         <ThemedText type="title" className="text-center text-3xl my-3 text-gray-900 dark:text-white">
-          John Doe
+          {profile.name}
         </ThemedText>
         <ThemedText className="text-center text-base text-gray-600 dark:text-gray-300 mb-6">
-          john.doe@example.com
+          {profile.email}
         </ThemedText>
 
         <View className="flex-row justify-around mb-8">
@@ -102,9 +107,12 @@ function MyProfile() {
           </View>
         </ThemedView>
 
-        {/* Example of an action button */}
+        {/* Action Button to Edit Profile */}
         <View className="items-center">
-          <TouchableOpacity className="bg-gradient-to-r from-green-400 to-blue-500 py-3 px-10 rounded-full shadow-lg">
+          <TouchableOpacity
+            className="bg-gradient-to-r from-green-400 to-blue-500 py-3 px-10 rounded-full shadow-lg"
+            onPress={() => router.push('/edit_profile')}
+          >
             <ThemedText className="text-white text-lg font-semibold">
               Edit Profile
             </ThemedText>
