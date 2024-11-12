@@ -19,7 +19,12 @@ git clone https://github.com/EECS3311F24/project-latte.git
 3. Install any dependencies that pop up (y)
 
 ```
-    npm install
+cd  frontend
+npm install
+```
+``` 
+cd backend
+npm install
 ```
 
 #Set up Dependencies
@@ -40,7 +45,8 @@ cp env-example .env
 Head to [Api Ninja](https://api-ninjas.com/) and get a free api token and add to your `.env` file.
 
 ```
-EXPO_PUBLIC_API_KEY_WORKOUTS=...
+#/backend/.env
+API_KEY_WORKOUTS=...
 ```
 
 ### Set up Clerk
@@ -50,12 +56,14 @@ EXPO_PUBLIC_API_KEY_WORKOUTS=...
 3. In your `.env` file add the api keys from the dashboard. e.g
 
 ```
+# /frontend/.env
   EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=...
 ```
 
 ### Set up a Postgres database([ Neondb ](https://neon.tech/home) is nice), and add the connection string to
 
 ```
+# /backend/.env
 DATABASE_URL=...
 ```
 
@@ -66,9 +74,15 @@ If using[ Neondb ](https://neon.tech/home) make sure to use the url
 Run the project
 
 ```
-  npm start
+#/frontned
+npm start
+```
+```
+#/backend
+npm run dev
 ```
 
+'
 5. Open the project on your browser by pressing w in the terminal
 
 ## Contribution:
