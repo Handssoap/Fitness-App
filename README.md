@@ -22,7 +22,8 @@ git clone https://github.com/EECS3311F24/project-latte.git
 cd  frontend
 npm install
 ```
-``` 
+
+```
 cd backend
 npm install
 ```
@@ -35,6 +36,7 @@ npm install
 # /frontend
 cp env-example .env
 ```
+
 ```
 # /backend
 cp env-example .env
@@ -45,8 +47,9 @@ cp env-example .env
 Head to [Api Ninja](https://api-ninjas.com/) and get a free api token and add to your `.env` file.
 
 ```
-#/backend/.env
-API_KEY_WORKOUTS=...
+#/frontend/.env
+#API NINJA
+EXPO_PUBLIC_API_ROUTE_ORIGIN=...
 ```
 
 ### Set up Clerk
@@ -77,18 +80,55 @@ Run the project
 #/frontned
 npm start
 ```
+
+Open the project on your browser by pressing w in the terminal
+
 ```
 #/backend
-npm run dev
+npm run start:dev
 ```
 
-'
-5. Open the project on your browser by pressing w in the terminal
+### API docs
+
+To see the swagger docs, open `http://localhost:3001/api`. NOTE: you `port=3001` can be different.
+![alt text](./assets/swagger-api.png)
+
+### Clerk Webhhok
+
+For the clerk webhhok to work set up an ngrok url. NOTE: Make sure you have ngrok installed([here](https://download.ngrok.com/mac-os)) and have the backend running on a port different to the port for the frontend.
+
+```
+ngrok  http 3001
+```
+
+Then add the url like the one below as a webhook endpoint in the clerk dashboard with a prefix `/clerk/webhook`.
+
+![Ngrok Terminal](./assets/ngrok-terminal.png)
+
+![Clerk Dashboard](./assets/clerk-dashboard.png)
+
+Under **"Subscribe to events"**, select the following events
+
+![clerk webhook events](./assets/clerk-webhook-events.png)
+
+Then add the webhook secret to you `.env` file
+
+```
+#/backend/.env
+WEBHOOK_SECRET=
+```
+
+Then restart the backend server
+
+```
+#/backend
+npm run start:dev
+```
 
 ## Contribution:
 
 We do not use git flow. However, new features are branched and named according to the feature. Any bugs will be brought up with GitHub issues. Before merging with the main branch, a pull request is made and reviewed by one or more team members.
 
-## Sample Demo of the Project 
+## Sample Demo of the Project
 
 A demonstration of our app's current implementation is shown in this [video link](https://drive.google.com/file/d/14MwtScbs8dhyQpm-SW7bxG0saV1TD8VQ/view).
