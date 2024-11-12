@@ -39,7 +39,7 @@ cp env-example .env
 
 ```
 # /backend
-cp env-example .env
+cp env.example .env
 ```
 
 ### API Ninja
