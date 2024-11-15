@@ -9,47 +9,115 @@ generator client {
 }
 
 datasource db {
-   provider = "postgresql"
-   url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Profile {
-  id       String    @id @default(uuid())
-  userId   String    @unique
+  id       String @id @default(uuid())
+  userId   String @unique
   name     String
-  imageUrl String  // for postgresql
-  email    String  // for postgresql
-  
-  workouts Workout[]
+  imageUrl String // for postgresql
+  email    String // for postgresql
+
+  health Health?
+
+  workouts          Workout[] @relation("profilesForWorkout")
+  workoutTemplates Workout[]  @relation("profilesForWorkoutTemplates")
+  meals             Meal[]
+  activityHistory   Activity[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Workout {
-  id          String     @id @default(uuid())
-  userId      String     @unique
+  id          String   @id @default(uuid())
+  userId      String   @unique
   name        String
   description String
   imageUrl    String
-  exercises   Exercise[]
+  visibility  Boolean  @default(false) // private = false
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Profile   Profile? @relation(fields: [profileId], references: [id])
-  profileId String?
+  exercises Exercise[]
+
+  profilesForWorkout Profile[] @relation("profilesForWorkout")
+  profilesForWorkoutTemplates Profile[] @relation("profilesForWorkoutTemplates")
+
+  activities Activity[]
 }
 
 model Exercise {
   id          String   @id @default(uuid())
-  workoutId   String
-  workout     Workout  @relation(fields: [workoutId], references: [id])
   name        String
   description String
   imageUrl    String
   sets        Int
   reps        Int
   weight      Int
+  units       String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  workoutId String
+  workout   Workout @relation(fields: [workoutId], references: [id])
+}
+
+model Meal {
+  id            String  @id @default(uuid())
+  name          String
+  description   String
+  totalCalories Float
+  breakfast     Boolean
+  lunch         Boolean
+  dinner        Boolean
+  snack         Boolean
+  visibility    Boolean @default(false) // false ? 'private' : 'public'
+
+  profile    Profile[]
+  food       Food[]
+  activities Activity[]
+}
+
+model Health {
+  id     String @id @default(uuid())
+  age    Int
+  height Float
+  weight Float
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String  @unique
+
+  activity Activity?
+}
+
+model Food {
+  id       String @id @default(uuid())
+  name     String
+  quantity Float
+  units    String
+  calories String
+
+  meal Meal[]
+}
+
+model Activity {
+  id           String @id @default(uuid())
+  name         String
+  description  String
+  activityType String
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String
+
+  meal   Meal?  @relation(fields: [mealId], references: [id])
+  mealId String
+
+  workout   Workout? @relation(fields: [workoutId], references: [id])
+  workoutId String
+
+  health   Health? @relation(fields: [healthId], references: [id])
+  healthId String  @unique
 }
