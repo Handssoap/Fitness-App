@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from "react";
+import { View, Text, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
@@ -10,7 +10,27 @@ import { useProfile } from '@/ProfileContext';
 export default function TrackMeals() {
 
   const { profile } = useProfile(); 
+
+  const [mealName, setMealName] = useState("");
+  const [calories, setCalories] = useState("");
+
   const router = useRouter();
+
+
+  const saveMeal = () => {
+    if (!mealName || !calories) {
+      Alert.alert("Error", "Please fill in both fields.");
+      return;
+    }
+
+    // save meal data
+    console.log("Meal Saved:", { mealName, calories });
+    Alert.alert("Success", "Meal saved successfully!");
+
+    // reset the form
+    setMealName("");
+    setCalories("");
+  };
 
   return (
     <>
@@ -25,9 +45,34 @@ export default function TrackMeals() {
         }>
         
         <ThemedView>
-          <ThemedText type="title" className="text-center text-white">
-              Track Meals
+
+          <ThemedText type="title" className="text-center text-white mb-8">
+            Track Meals
+          </ThemedText>
+
+          <TextInput
+            className="w-full p-4 mb-4 bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg"
+            placeholder="Enter Meal Name"
+            placeholderTextColor="#888"
+            value={mealName}
+            onChangeText={setMealName}
+          />
+
+          <TextInput
+            className="w-full p-4 mb-4 bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg"
+            placeholder="Enter Calories"
+            placeholderTextColor="#888"
+            keyboardType="numeric"
+            value={calories}
+            onChangeText={setCalories}
+          />
+
+          <TouchableOpacity onPress={saveMeal} className="bg-blue-500 p-4 rounded-lg">
+            <ThemedText className="text-center text-white font-bold">
+              Save Meal
             </ThemedText>
+          </TouchableOpacity>
+
         </ThemedView>
             
 
