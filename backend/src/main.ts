@@ -6,7 +6,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     // used by clerk webhook to read the webhook payload
     rawBody: true,
+    cors: true,
   });
+
   const config = new DocumentBuilder()
     .setTitle('Latte Firness')
     .setDescription('Api endpoints documentation')
