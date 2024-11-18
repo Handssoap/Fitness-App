@@ -4,20 +4,14 @@ import {
   TouchableOpacity,
   FlatList,
   Text,
-  Text,
   Image,
   ActivityIndicator,
-  ScrollView,
   ScrollView,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {
-  SignInButton,
-  UserButton,
-} from "@clerk/clerk-expo/dist/web/uiComponents";
 import {
   SignInButton,
   UserButton,
@@ -54,37 +48,7 @@ type ExerciseWithFrequency = {
 
 type Exercise2 = ExerciseExternalAPI & ExerciseWithFrequency;
 type WorkoutDetails = {
-const api = process.env.EXPO_PUBLIC_API_URL || "http://localhost:3001";
-const DEFAULT_WORKOUT_DETAILS = {
-  name: "",
-  description: "",
-  imageUrl: "https://example.com/default-image.png",
-};
-
-type ExerciseExternalAPI = {
-  id?: string;
   name: string;
-  imageUrl: string;
-  description: string;
-};
-
-type ExerciseWithFrequency = {
-  reps: number;
-  sets: number;
-  weight: number;
-  units: string;
-};
-
-type Exercise2 = ExerciseExternalAPI & ExerciseWithFrequency;
-type WorkoutDetails = {
-  name: string;
-  imageUrl: string;
-  description: string;
-};
-type Workout = WorkoutDetails & {
-  userId: string;
-  exercises: Exercise2[];
-};
   imageUrl: string;
   description: string;
 };
@@ -115,32 +79,7 @@ const Workouts: React.FC = () => {
   const [workoutDetails, setWorkoutDetails] = useState<WorkoutDetails>(
     DEFAULT_WORKOUT_DETAILS
   );
-  // Clerk
-  const { isLoaded, userId } = useAuthAdapter();
-  const {
-    exercises,
-    setExercises,
-    selectedMuscle,
-    setSelectedMuscle,
-    selectedExercise,
-    setSelectedExercise,
-    workoutExercises,
-    setWorkoutExercises,
-    loading,
-    setLoading,
-    error,
-    setError,
-    muscleOptions,
-  } = useFetchExercises({ api_key: API_KEY_WORKOUTS as string });
-  const [workoutAdded, setWorkoutAdded] = useState<Boolean>(false);
-  const [workoutDetails, setWorkoutDetails] = useState<WorkoutDetails>(
-    DEFAULT_WORKOUT_DETAILS
-  );
   const addExerciseToWorkout = () => {
-    if (
-      selectedExercise &&
-      !workoutExercises.some((ex) => ex.id === selectedExercise.id)
-    ) {
     if (
       selectedExercise &&
       !workoutExercises.some((ex) => ex.id === selectedExercise.id)
@@ -160,20 +99,11 @@ const Workouts: React.FC = () => {
     }));
   };
 
-  const handleWorkoutDetailsChange = (fieldName: string, value: string) => {
-    setWorkoutDetails((prev) => ({
-      ...prev,
-      [fieldName]: value,
-    }));
-  };
-
   const saveWorkout = async () => {
     if (workoutExercises.length === 0) {
       alert("Please add at least one exercise to your workout.");
       return;
     }
-
-    if (!userId) return;
 
     if (!userId) return;
 
@@ -197,40 +127,9 @@ const Workouts: React.FC = () => {
 
         return ex;
       }),
-    const workoutData: Workout = {
-      userId: userId as string,
-      name: workoutDetails.name,
-      description: workoutDetails.description,
-      imageUrl: workoutDetails.imageUrl,
-      exercises: workoutExercises.map((exercise) => {
-        const ex: Exercise2 = {
-          name: exercise.name,
-          imageUrl: exercise.image,
-          description: exercise.instructions as string,
-          reps: 10, // Hard coded for sprint 2
-          sets: 10, // Hard coded for sprint 2
-          units: "lbs", // Hard coded for sprint 2
-          weight: 5, // Hard coded for sprint 2
-        };
-
-        return ex;
-      }),
     };
 
     try {
-      const response = await fetch(`${api}/workout/workout-template`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(workoutData),
-      });
-      const data = await response.json();
-      if (data) {
-        // console.log(data);
-        setWorkoutExercises([]);
-        alert("Workout added");
-        setWorkoutDetails(DEFAULT_WORKOUT_DETAILS);
       const response = await fetch(`${api}/workout/workout-template`, {
         method: "POST",
         headers: {
@@ -296,9 +195,6 @@ const Workouts: React.FC = () => {
               onValueChange={(itemValue: string) =>
                 setSelectedMuscle(itemValue)
               }
-              onValueChange={(itemValue: string) =>
-                setSelectedMuscle(itemValue)
-              }
               style={{ height: 50, color: "#000" }}
             >
               {muscleOptions.map((muscle) => (
@@ -329,8 +225,6 @@ const Workouts: React.FC = () => {
                 onValueChange={(itemValue: string) => {
                   const exercise =
                     exercises.find((ex) => ex.id === itemValue) || null;
-                  const exercise =
-                    exercises.find((ex) => ex.id === itemValue) || null;
                   setSelectedExercise(exercise);
                 }}
                 style={{ height: 50, color: "#000" }}
@@ -338,11 +232,6 @@ const Workouts: React.FC = () => {
               >
                 <Picker.Item label="-- Select Exercise --" value="" />
                 {exercises.map((exercise) => (
-                  <Picker.Item
-                    key={exercise.id}
-                    label={exercise.name}
-                    value={exercise.id}
-                  />
                   <Picker.Item
                     key={exercise.id}
                     label={exercise.name}
@@ -368,16 +257,11 @@ const Workouts: React.FC = () => {
             <ThemedText className="text-white text-center">
               Add Exercise
             </ThemedText>
-            <ThemedText className="text-white text-center">
-              Add Exercise
-            </ThemedText>
           </TouchableOpacity>
         </View>
 
         <SaveButton buttonText="Save Workout" onPress={saveWorkout} />
-        <SaveButton buttonText="Save Workout" onPress={saveWorkout} />
         {/* List of Selected Exercises */}
-        <ScrollView className="mt-5">
         <ScrollView className="mt-5">
           <ThemedText
             type="subtitle"
@@ -403,17 +287,10 @@ const Workouts: React.FC = () => {
                     <Text className="font-bold text-2xl text-gray-800 dark:text-white ">
                       {item.name}
                     </Text>
-                    <Text className="font-bold text-2xl text-gray-800 dark:text-white ">
-                      {item.name}
-                    </Text>
                     <ThemedText className="text-base text-gray-800 dark:text-white font-medium">
-                      {item.instructions}
                       {item.instructions}
                     </ThemedText>
                   </View>
-                  <TouchableOpacity
-                    onPress={() => removeExerciseFromWorkout(item.id)}
-                  >
                   <TouchableOpacity
                     onPress={() => removeExerciseFromWorkout(item.id)}
                   >
@@ -424,6 +301,8 @@ const Workouts: React.FC = () => {
             />
           )}
         </ScrollView>
+
+        {/* Save Workout Button */}
       </ThemedView>
     </ScrollView>
     </>
