@@ -147,4 +147,4 @@ We do not use git flow. However, new features are branched and named according t
 
 ## Sample Demo of the Project
 
-A demonstration of our app's current implementation is shown in this [video link]([https://drive.google.com/file/d/1kBpB9okgABVoCC0CJaDd88qlTYrVZhDq/view?usp=sharing])
+A demonstration of our app's current implementation is shown in this link https://drive.google.com/file/d/1kBpB9okgABVoCC0CJaDd88qlTYrVZhDq/view?usp=sharing
