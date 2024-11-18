@@ -30,6 +30,11 @@ npm install
 
 #Set up Dependencies
 
+For the set up and running the project please have at least 3 terminals running. 
+1. one for frontend
+2. one for backend
+3. one for ngrok
+
 ### Make `.env` file
 
 ```
@@ -52,6 +57,16 @@ Head to [Api Ninja](https://api-ninjas.com/) and get a free api token and add to
 EXPO_PUBLIC_API_ROUTE_ORIGIN=...
 ```
 
+### Database: Set up a Postgres database([ Neondb ](https://neon.tech/home) is nice), and add the connection string to
+
+```
+# /backend/.env
+DATABASE_URL=...
+```
+
+If using[ Neondb ](https://neon.tech/home) make sure to use the url
+
+
 ### Set up Clerk
 
 1. Create a new Clerk app [here](https://clerk.com/)
@@ -63,39 +78,17 @@ EXPO_PUBLIC_API_ROUTE_ORIGIN=...
   EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=...
 ```
 
-### Set up a Postgres database([ Neondb ](https://neon.tech/home) is nice), and add the connection string to
+#### Clerk Webhhok
 
-```
-# /backend/.env
-DATABASE_URL=...
-```
+For the clerk webhhok to work set up an ngrok url. NOTE: Make sure you have ngrok installed([here](https://download.ngrok.com/mac-os) or [docs with windows](https://ngrok.com/docs/guides/device-gateway/windows/)) and have the backend running on a port different to the port for the frontend.
 
-If using[ Neondb ](https://neon.tech/home) make sure to use the url
-
-# Usage
-
-Run the project
-
-```
-#/frontned
-npm start
-```
-
-Open the project on your browser by pressing w in the terminal
+Make sure that backend is running on a separate terminal
 
 ```
 #/backend
 npm run start:dev
 ```
-
-### API docs
-
-To see the swagger docs, open `http://localhost:3001/api`. NOTE: you `port=3001` can be different.
-![alt text](./assets/swagger-api.png)
-
-### Clerk Webhhok
-
-For the clerk webhhok to work set up an ngrok url. NOTE: Make sure you have ngrok installed([here](https://download.ngrok.com/mac-os)) and have the backend running on a port different to the port for the frontend.
+then on another terminal run
 
 ```
 ngrok  http 3001
@@ -124,6 +117,29 @@ Then restart the backend server
 #/backend
 npm run start:dev
 ```
+
+# Usage
+
+Run the project
+
+```
+#/frontned
+npm start
+```
+
+Open the project on your browser by pressing w in the terminal
+
+```
+#/backend
+npm run start:dev
+```
+
+### API docs
+
+To see the swagger docs, open `http://localhost:3001/api`. NOTE: you `port=3001` can be different.
+![alt text](./assets/swagger-api.png)
+
+
 
 ## Contribution:
 
