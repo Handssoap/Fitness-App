@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { cn } from "../lib/utils";
+import { ThemedView } from "./ThemedView";
 
 export type SaveWorkOutButtonProps = {
   onPress: () => Promise<void>;
@@ -17,7 +18,7 @@ export type SaveWorkOutButtonProps = {
 
 export default function SaveButton(props: SaveWorkOutButtonProps) {
   return (
-    <View className={cn("mt-5 items-center", props.className)}>
+    <ThemedView className={cn("mt-5 items-center", props.className)}>
       <TouchableOpacity
         className="bg-green-500 py-3 px-10 rounded-full shadow-lg"
         onPress={props.onPress}
@@ -26,6 +27,6 @@ export default function SaveButton(props: SaveWorkOutButtonProps) {
           {props.buttonText}
         </ThemedText>
       </TouchableOpacity>
-    </View>
+    </ThemedView>
   );
 }
