@@ -17,6 +17,7 @@ export default function TrackMeals() {
 
   const [description, setDescription] = useState("");
 
+  const [isPickerVisible, setIsPickerVisible] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState<string | null>(null);
   const mealTypes = ["breakfast", "lunch", "dinner", "snack"];
 
@@ -83,25 +84,23 @@ export default function TrackMeals() {
             onChangeText={setDescription}
           />
 
-          
-          <ThemedText className="w-full p-4 mb-4 bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg">
-          Select Meal Type Below</ThemedText>
-
-          <View className="w-full border border-gray-300 rounded-lg bg-white">
+          <View className="w-full p-4 mb-4 bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg">
             <Picker
               selectedValue={selectedMeal}
               onValueChange={(itemValue) => setSelectedMeal(itemValue)}
-              style={{ height: 50, width: '100%' }} // Adjust styles as needed
+              style={{
+              color: selectedMeal ? "#888" : "#888", 
+              backgroundColor: "transparent", 
+              fontSize: 16, 
+            }}
+            dropdownIconColor="#888" 
             >
-
-              <Picker.Item label="Select a meal..." value={null} />
-                  {mealTypes.map((meal) => (
-                  <Picker.Item key={meal} label={meal.charAt(0).toUpperCase() + meal.slice(1)} value={meal} />
-              ))}
-
+            <Picker.Item label="Select Meal Type..." value={null} />
+              {mealTypes.map((meal) => (
+            <Picker.Item key={meal} label={meal.charAt(0).toUpperCase() + meal.slice(1)} value={meal} />
+            ))}
             </Picker>
-          </View>
-          
+          </View>   
 
           <TouchableOpacity onPress={saveMeal} className="bg-blue-500 mt-4 mb-4 p-4 rounded-lg">
             <ThemedText className="text-center text-white font-bold">
