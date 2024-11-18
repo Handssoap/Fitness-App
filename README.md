@@ -30,6 +30,11 @@ npm install
 
 #Set up Dependencies
 
+For the set up and running the project please have at least 3 terminals running. 
+1. one for frontend
+2. one for backend
+3. one for ngrok
+
 ### Make `.env` file
 
 ```
