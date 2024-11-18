@@ -33,7 +33,7 @@ model Profile {
 
 model Workout {
   id          String   @id @default(uuid())
-  userId      String   @unique
+  userId      String  
   name        String
   description String
   imageUrl    String
@@ -90,7 +90,7 @@ model Health {
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String  @unique
 
-  activity Activity?
+  activity Activity[]
 }
 
 model Food {
@@ -119,5 +119,5 @@ model Activity {
   workoutId String
 
   health   Health? @relation(fields: [healthId], references: [id])
-  healthId String  @unique
+  healthId String  
 }
