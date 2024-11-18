@@ -24,15 +24,13 @@ interface Exercise {
   muscle?: string;
   equipment?: string;
   difficulty?: string;
-  instructions?: string;
+  description?: string;
 }
 
 const Workouts: React.FC = () => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [selectedMuscle, setSelectedMuscle] = useState<string>("biceps");
-  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
-    null
-  );
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
   const [workoutExercises, setWorkoutExercises] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -80,7 +78,7 @@ const Workouts: React.FC = () => {
               muscle: exercise.muscle,
               equipment: exercise.equipment,
               difficulty: exercise.difficulty,
-              instructions: exercise.instructions,
+              description: exercise.instructions,
             })
           );
           setExercises(exercisesWithImages);
@@ -114,8 +112,6 @@ const Workouts: React.FC = () => {
       return;
     }
 
-    const profileId = "user-profile-id"; // fetch user id later on
-
     const workoutData = {
       name: "My Custom Workout",
       description: "A custom workout created by the user.",
@@ -128,7 +124,7 @@ const Workouts: React.FC = () => {
         muscle: exercise.muscle,
         equipment: exercise.equipment,
         difficulty: exercise.difficulty,
-        instructions: exercise.instructions,
+        description: exercise.description,
       })),
     };
 
