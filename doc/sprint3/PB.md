@@ -134,13 +134,6 @@ As a new user, I want to be able to input my anthropometry and fitness goal so t
   - user input fitness goal such as, weight loss, muscle gain, improve cardio
   - app outputs most fitting workout routine and diet based on input
 
-## User Story 18:
-
-As a bodybuilder, I want to track my daily protein intake so that I meet my muscle-building nutrition goals.
-
-- **Critera of Satisfaction**:
-  - user inputs how much protein they consumed everyday
-
 ## User Story 19:
 
 As a gym enthusiast, I want to be able to create and customize my own workout routines and diets so that I can focus on specific areas of my training.
