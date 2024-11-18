@@ -12,7 +12,7 @@ Yesterday: Began setting up the Node.js and Express backend environment. Worked 
 Today: Completing the Clerk authentication setup, including endpoints for user registration and login. Will be testing authentication flows today.
 Blockers: Minor delay due to Clerk documentation being unclear in some areas; working through it by referencing community forums.
 
-Team Member: Manille Jao Villacorta
+Team Member: Jiawei Yang
 
 Yesterday: Set up the React Native environment and worked on basic layout components for the login and registration screens.
 Today: Continuing to develop the frontend components, focusing on integrating the Clerk authentication flow with React Native. Testing UI elements for responsiveness.
@@ -21,7 +21,7 @@ Blockers: Working to ensure smooth integration between Clerk and React Native—
 
 Standup 2 (October 27, 2024)
 
-Team Member: Jiawei Yang
+Team Member: Manille Jao Villacorta 
 
 Yesterday: Completed basic setup for connecting the Node.js backend to PostgreSQL. Began writing CRUD operations for handling user profiles.
 Today: Continuing with the CRUD operations for user profiles and adding middleware for handling errors. Plan to start initial work on connecting the Exercise API by end of day.
@@ -57,7 +57,7 @@ Yesterday: Conducted a mid-sprint review with the team to assess progress and ad
 Today: Following up on blockers related to API rate limits and caching. Preparing a progress report for stakeholders and coordinating final testing tasks with Jiawei.
 Blockers: Minor concern about API performance; team is working on caching solutions.
 
-Team Members: Jiawei Yang + Vince Flores
+Team Members: Manille Jao Villacorta + Vince Flores
 
 Yesterday: Implemented caching for the exercise API to minimize rate limit issues. Completed initial testing of the cached API responses.
 Today: Testing cache performance and finalizing API integration with the exercise browsing feature. Preparing for additional error-handling improvements.

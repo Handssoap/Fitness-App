@@ -1,8 +1,10 @@
 # Sprint Retrospective Meeting - Sprint 1
 
-## Date: November 3, 2024
-## Location: Zoom Virtual Meeting 
-## Participants:
+Date: November 3, 2024
+Location: Zoom Virtual Meeting 
+Video Recording Link: [demo video](https://drive.google.com/file/d/14MwtScbs8dhyQpm-SW7bxG0saV1TD8VQ/view)
+
+Participants:
 | Name                    | Attended |
 |-------------------------|----------|
 | Max Chornenkyy          | Yes      |
