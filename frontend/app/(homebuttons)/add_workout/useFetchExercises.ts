@@ -77,7 +77,7 @@ export const useFetchExercises = (props: useFetchExercisesProps) => {
         }
       } catch (err: any) {
         console.error("Error fetching exercises:", err);
-        setError(err.message);
+        setError("--Select Exercise --");
       } finally {
         setLoading(false);
       }

@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@clerk/clerk-expo": "^2.3.5",
+    "@types/next": "^8.0.7",
+    "expo-router": "^4.0.6",
+    "next": "^15.0.3"
+  }
+}

@@ -4,8 +4,10 @@ import {
   TouchableOpacity,
   FlatList,
   Text,
+  Text,
   Image,
   ActivityIndicator,
+  ScrollView,
   ScrollView,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
@@ -16,14 +18,42 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/clerk-expo/dist/web/uiComponents";
+import {
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-expo/dist/web/uiComponents";
 import SaveButton from "../../../components/SaveWorkoutBtn";
 import { SignoutButton } from "../../../components/clerk/SIgnoutButton";
 import { SignedIn } from "@clerk/clerk-expo";
 import { TextInput } from "react-native-gesture-handler";
 import useAuthAdapter from "../../../hooks/useAuth";
 import { useFetchExercises } from "./useFetchExercises";
+import { Stack } from "expo-router";
 
 const API_KEY_WORKOUTS = process.env.EXPO_PUBLIC_API_KEY_WORKOUTS;
+const api = process.env.EXPO_PUBLIC_API_URL || "http://localhost:3001";
+const DEFAULT_WORKOUT_DETAILS = {
+  name: "",
+  description: "",
+  imageUrl: "https://example.com/default-image.png",
+};
+
+type ExerciseExternalAPI = {
+  id?: string;
+  name: string;
+  imageUrl: string;
+  description: string;
+};
+
+type ExerciseWithFrequency = {
+  reps: number;
+  sets: number;
+  weight: number;
+  units: string;
+};
+
+type Exercise2 = ExerciseExternalAPI & ExerciseWithFrequency;
+type WorkoutDetails = {
 const api = process.env.EXPO_PUBLIC_API_URL || "http://localhost:3001";
 const DEFAULT_WORKOUT_DETAILS = {
   name: "",
@@ -55,8 +85,36 @@ type Workout = WorkoutDetails & {
   userId: string;
   exercises: Exercise2[];
 };
+  imageUrl: string;
+  description: string;
+};
+type Workout = WorkoutDetails & {
+  userId: string;
+  exercises: Exercise2[];
+};
 
 const Workouts: React.FC = () => {
+  // Clerk
+  const { isLoaded, userId } = useAuthAdapter();
+  const {
+    exercises,
+    setExercises,
+    selectedMuscle,
+    setSelectedMuscle,
+    selectedExercise,
+    setSelectedExercise,
+    workoutExercises,
+    setWorkoutExercises,
+    loading,
+    setLoading,
+    error,
+    setError,
+    muscleOptions,
+  } = useFetchExercises({ api_key: API_KEY_WORKOUTS as string });
+  const [workoutAdded, setWorkoutAdded] = useState<Boolean>(false);
+  const [workoutDetails, setWorkoutDetails] = useState<WorkoutDetails>(
+    DEFAULT_WORKOUT_DETAILS
+  );
   // Clerk
   const { isLoaded, userId } = useAuthAdapter();
   const {
@@ -83,12 +141,23 @@ const Workouts: React.FC = () => {
       selectedExercise &&
       !workoutExercises.some((ex) => ex.id === selectedExercise.id)
     ) {
+    if (
+      selectedExercise &&
+      !workoutExercises.some((ex) => ex.id === selectedExercise.id)
+    ) {
       setWorkoutExercises([...workoutExercises, selectedExercise]);
     }
   };
 
   const removeExerciseFromWorkout = (exerciseId: string) => {
     setWorkoutExercises(workoutExercises.filter((ex) => ex.id !== exerciseId));
+  };
+
+  const handleWorkoutDetailsChange = (fieldName: string, value: string) => {
+    setWorkoutDetails((prev) => ({
+      ...prev,
+      [fieldName]: value,
+    }));
   };
 
   const handleWorkoutDetailsChange = (fieldName: string, value: string) => {
@@ -106,8 +175,28 @@ const Workouts: React.FC = () => {
 
     if (!userId) return;
 
+    if (!userId) return;
+
     const profileId = "user-profile-id"; // fetch user id later on
 
+    const workoutData: Workout = {
+      userId: userId as string,
+      name: workoutDetails.name,
+      description: workoutDetails.description,
+      imageUrl: workoutDetails.imageUrl,
+      exercises: workoutExercises.map((exercise) => {
+        const ex: Exercise2 = {
+          name: exercise.name,
+          imageUrl: exercise.image,
+          description: exercise.instructions as string,
+          reps: 10, // Hard coded for sprint 2
+          sets: 10, // Hard coded for sprint 2
+          units: "lbs", // Hard coded for sprint 2
+          weight: 5, // Hard coded for sprint 2
+        };
+
+        return ex;
+      }),
     const workoutData: Workout = {
       userId: userId as string,
       name: workoutDetails.name,
@@ -142,6 +231,19 @@ const Workouts: React.FC = () => {
         setWorkoutExercises([]);
         alert("Workout added");
         setWorkoutDetails(DEFAULT_WORKOUT_DETAILS);
+      const response = await fetch(`${api}/workout/workout-template`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(workoutData),
+      });
+      const data = await response.json();
+      if (data) {
+        // console.log(data);
+        setWorkoutExercises([]);
+        alert("Workout added");
+        setWorkoutDetails(DEFAULT_WORKOUT_DETAILS);
       }
     } catch (error: any) {
       console.error("Error saving workout:", error);
@@ -150,39 +252,38 @@ const Workouts: React.FC = () => {
   };
 
   return (
+    <>
+    <Stack.Screen options={{ headerShown: false }} /> {/* Hide header */}
     <ScrollView className="flex-1 bg-white dark:bg-gray-900">
       <ThemedView className="p-5">
-        <SignedIn>
-          <SignoutButton />
-        </SignedIn>
-        <View className="text-white">
-          <SignInButton />
-        </View>
-        <ThemedText
-          type="title"
-          className="text-center text-3xl my-3 text-gray-900 dark:text-white font-bold"
-        >
-          Create Your Workout
-        </ThemedText>
+       
+      <ThemedText
+  type="title"
+  className="text-center text-4xl my-5 text-white font-bold"
+>
+  Create Your Workout
+</ThemedText>
 
-        {/* Workout Details */}
-        <View className="gap-3">
-          <Text>Workout Details</Text>
-          <TextInput
-            placeholder="Workout Name"
-            value={workoutDetails.name}
-            className="p-3 rounded-lg focus:ring-4 "
-            onChangeText={(value) => handleWorkoutDetailsChange("name", value)}
-          />
-          <TextInput
-            placeholder="Description"
-            value={workoutDetails.description}
-            className="p-3 rounded-lg focus:ring-4 "
-            onChangeText={(value) =>
-              handleWorkoutDetailsChange("description", value)
-            }
-          />
-        </View>
+{/* Workout Details */}
+<View className="gap-4 mt-5">
+  <Text className="text-xl text-white font-semibold">Workout Details</Text>
+  <TextInput
+    placeholder="Workout Name"
+    value={workoutDetails.name}
+    className="p-4 rounded-lg bg-gray-800 text-white"
+    placeholderTextColor="#aaa"
+    onChangeText={(value) => handleWorkoutDetailsChange("name", value)}
+  />
+  <TextInput
+    placeholder="Description"
+    value={workoutDetails.description}
+    className="p-4 rounded-lg bg-gray-800 text-white"
+    placeholderTextColor="#aaa"
+    onChangeText={(value) =>
+      handleWorkoutDetailsChange("description", value)
+    }
+  />
+</View>
 
         {/* Muscle Group Picker */}
         <View className="mt-5">
@@ -192,6 +293,9 @@ const Workouts: React.FC = () => {
           <View className="border border-gray-300 dark:border-gray-700 rounded-md">
             <Picker
               selectedValue={selectedMuscle}
+              onValueChange={(itemValue: string) =>
+                setSelectedMuscle(itemValue)
+              }
               onValueChange={(itemValue: string) =>
                 setSelectedMuscle(itemValue)
               }
@@ -225,6 +329,8 @@ const Workouts: React.FC = () => {
                 onValueChange={(itemValue: string) => {
                   const exercise =
                     exercises.find((ex) => ex.id === itemValue) || null;
+                  const exercise =
+                    exercises.find((ex) => ex.id === itemValue) || null;
                   setSelectedExercise(exercise);
                 }}
                 style={{ height: 50, color: "#000" }}
@@ -232,6 +338,11 @@ const Workouts: React.FC = () => {
               >
                 <Picker.Item label="-- Select Exercise --" value="" />
                 {exercises.map((exercise) => (
+                  <Picker.Item
+                    key={exercise.id}
+                    label={exercise.name}
+                    value={exercise.id}
+                  />
                   <Picker.Item
                     key={exercise.id}
                     label={exercise.name}
@@ -257,11 +368,16 @@ const Workouts: React.FC = () => {
             <ThemedText className="text-white text-center">
               Add Exercise
             </ThemedText>
+            <ThemedText className="text-white text-center">
+              Add Exercise
+            </ThemedText>
           </TouchableOpacity>
         </View>
 
         <SaveButton buttonText="Save Workout" onPress={saveWorkout} />
+        <SaveButton buttonText="Save Workout" onPress={saveWorkout} />
         {/* List of Selected Exercises */}
+        <ScrollView className="mt-5">
         <ScrollView className="mt-5">
           <ThemedText
             type="subtitle"
@@ -287,10 +403,17 @@ const Workouts: React.FC = () => {
                     <Text className="font-bold text-2xl text-gray-800 dark:text-white ">
                       {item.name}
                     </Text>
+                    <Text className="font-bold text-2xl text-gray-800 dark:text-white ">
+                      {item.name}
+                    </Text>
                     <ThemedText className="text-base text-gray-800 dark:text-white font-medium">
+                      {item.instructions}
                       {item.instructions}
                     </ThemedText>
                   </View>
+                  <TouchableOpacity
+                    onPress={() => removeExerciseFromWorkout(item.id)}
+                  >
                   <TouchableOpacity
                     onPress={() => removeExerciseFromWorkout(item.id)}
                   >
@@ -301,10 +424,9 @@ const Workouts: React.FC = () => {
             />
           )}
         </ScrollView>
-
-        {/* Save Workout Button */}
       </ThemedView>
     </ScrollView>
+    </>
   );
 };
 
