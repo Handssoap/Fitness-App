@@ -1,28 +1,115 @@
-import React from 'react';
-import { ScrollView, View, TouchableOpacity, Image } from 'react-native';
+import React, { useMemo } from 'react';
+import { ScrollView, View, TouchableOpacity, Image, Text } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { SignedIn, SignedOut, useUser, useAuth, useClerk } from '@clerk/clerk-expo';
+import { useNavigation } from '@react-navigation/native';
 
 function Home() {
-  
+  const { user } = useUser(); // Access the user object
+  const { signOut } = useAuth(); // Access signOut function
+  const clerk = useClerk(); // Access Clerk methods
+  const navigation = useNavigation(); // Navigation hook if needed
+
+  const userName = user?.firstName || 'Guest'; // Get the user's first name
+
+  // Function to handle sign-in
+  const handleSignIn = () => {
+    clerk.openSignIn(); // Opens Clerk's sign-in screen
+    // Alternatively, navigate to your custom sign-in screen:
+    // navigation.navigate('SignIn');
+  };
+
+  // Function to handle sign-out
+  const handleSignOut = () => {
+    signOut();
+  };
+
+  // Time-based greeting
+  const getGreeting = () => {
+    const currentHour = new Date().getHours();
+    if (currentHour < 12) {
+      return 'Good Morning';
+    } else if (currentHour >= 12 && currentHour < 18) {
+      return 'Good Afternoon';
+    } else {
+      return 'Good Evening';
+    }
+  };
+
+  const greeting = getGreeting();
+
+  // Inspirational quotes array
+  const quotes = [
+    "Your limitation—it's only your imagination.",
+    'Push yourself, because no one else is going to do it for you.',
+    'Great things never come from comfort zones.',
+    'Dream it. Wish it. Do it.',
+    "Success doesn't just find you. You have to go out and get it.",
+    "The harder you work for something, the greater you'll feel when you achieve it.",
+    "Don't stop when you're tired. Stop when you're done.",
+    'Do something today that your future self will thank you for.',
+    'Little things make big days.',
+    "It's going to be hard, but hard does not mean impossible.",
+  ];
+
+  // Select a random quote
+  const randomQuote = useMemo(() => {
+    return quotes[Math.floor(Math.random() * quotes.length)];
+  }, []);
+
   return (
     <ScrollView className="flex-1 bg-white dark:bg-gray-900">
+      {/* Top Bar with Sign-In/Sign-Out Button */}
+      <View className="flex-row justify-end items-center p-4">
+        <SignedIn>
+          <View className="flex-row items-center">
+            {user?.profileImageUrl ? (
+              <Image
+                source={{ uri: user.profileImageUrl }}
+                className="w-8 h-8 rounded-full"
+              />
+            ) : (
+              <MaterialIcons name="account-circle" size={24} color="#fff" />
+            )}
+            <Text className="ml-2 text-base font-medium text-gray-800 dark:text-white">
+              Hello, {userName}!
+            </Text>
+            <TouchableOpacity
+              onPress={handleSignOut}
+              className="ml-2 bg-red-500 px-2 py-2 rounded-full"
+            >
+              <Text className="text-white font-semibold">Sign Out</Text>
+            </TouchableOpacity>
+          </View>
+        </SignedIn>
+        <SignedOut>
+          <TouchableOpacity
+            onPress={handleSignIn}
+            className="flex-row items-center bg-blue-500 px-3 py-2 rounded-full"
+          >
+            <MaterialIcons name="login" size={24} color="#fff" />
+            <Text className="ml-2 text-white font-semibold">Sign In</Text>
+          </TouchableOpacity>
+        </SignedOut>
+      </View>
+
       {/* Header with Background Image */}
       <View className="relative h-56">
         <Image
-          source={{ uri: 'https://example.com/header-image.jpg' }} // Replace with a suitable URL or local image
+          source={{ uri: 'https://example.com/header-image.jpg' }}
           className="absolute w-full h-full object-cover rounded-b-3xl opacity-90"
         />
         <View className="absolute bottom-5 left-5">
           <ThemedText className="text-2xl font-bold text-white shadow-lg">
-            Good Morning, John!
+            {greeting}, {userName}!
           </ThemedText>
           <ThemedText className="text-lg text-white italic mt-1">
-            "Your limitation—it's only your imagination."
+            "{randomQuote}"
           </ThemedText>
         </View>
       </View>
@@ -65,8 +152,8 @@ function Home() {
         {/* Quick Actions Section */}
         <View className="mt-6 flex-row justify-between">
           <TouchableOpacity className="items-center flex-1 mx-1" onPress={() => router.push('/log_workout')}>
-            <View className="bg-green-500 p-4 rounded-full shadow-lg">
-              <Ionicons name="add-circle-outline" size={28} color="#fff" />
+          <View className="bg-blue-600 p-4 rounded-full shadow-lg">
+          <MaterialCommunityIcons name="dumbbell" size={28} color="#fff" />
             </View>
             <ThemedText className="mt-2 text-gray-800 dark:text-white font-medium">
               Log Workout
@@ -82,12 +169,13 @@ function Home() {
             </ThemedText>
           </TouchableOpacity>
           
-          <TouchableOpacity className="items-center flex-1 mx-1" onPress={() => router.push('/health_stats')}>
-            <View className="bg-pink-500 p-4 rounded-full shadow-lg">
-              <Ionicons name="heart-outline" size={28} color="#fff" />
+          <TouchableOpacity className="items-center flex-1 mx-1" onPress={() => router.push('add_workout/workouts')}>
+            
+              <View className="bg-green-500 p-4 rounded-full shadow-lg">
+              <Ionicons name="add-circle-outline" size={28} color="#fff" />
             </View>
             <ThemedText className="mt-2 text-gray-800 dark:text-white font-medium">
-              Health Stats
+              Create a Workout
             </ThemedText>
           </TouchableOpacity>
         </View>

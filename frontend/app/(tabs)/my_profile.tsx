@@ -6,11 +6,13 @@ import { ThemedText } from '@/components/ThemedText';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { useProfile } from '@/ProfileContext'; // Import the useProfile hook
+import { useUser } from '@clerk/clerk-expo';
 
 function MyProfile() {
   const { profile } = useProfile(); // Access profile data from context
   const router = useRouter();
-  
+  const { user } = useUser();
+  const email = user?.emailAddresses[0].emailAddress || '';
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#FF6F61', dark: '#FF6F61' }}
@@ -23,10 +25,10 @@ function MyProfile() {
     >
       <ThemedView className="p-5 bg-white dark:bg-gray-900">
         <ThemedText type="title" className="text-center text-3xl my-3 text-gray-900 dark:text-white">
-          {profile.name}
+          {user?.firstName} {user?.lastName}
         </ThemedText>
         <ThemedText className="text-center text-base text-gray-600 dark:text-gray-300 mb-6">
-          {profile.email}
+          {email}
         </ThemedText>
 
         <View className="flex-row justify-around mb-8">

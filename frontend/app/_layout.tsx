@@ -38,7 +38,7 @@ export default function RootLayout() {
   return (
     <ClerkProvider publishableKey={publishableKey}>
       <ClerkLoaded>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme} children={''}>
           <ProfileProvider> {/* Wrap ProfileProvider here */}
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
