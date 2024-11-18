@@ -5,6 +5,8 @@
 **Date:** November 17, 2024  
 **Prepared By:** Team Latte
 
+<div style="page-break-after: always;"></div>
+
 ---
 
 ## Table of Contents
@@ -28,6 +30,8 @@
 7. [Conclusion](#conclusion)
 
 ---
+
+<div style="page-break-after: always;"></div>
 
 ## 1. Introduction
 
@@ -154,7 +158,22 @@ The Fitness App follows a two-tier architecture (Frontend + Backend). The archit
 
 ![API Documentation Page](../../assets/swagger-api.png)
 
-![Software Architecture Diagram](../../assets/architecture.png)
+```plantuml
+@startuml
+    rectangle "Frontend (React Native)" as FE
+    rectangle "Backend\n(Node.js + Express)" as BE
+    rectangle "Database\n(PostgreSQL)" as DB
+    rectangle "External Services" as ES
+    rectangle "Exercise API" as ExAPI
+    rectangle "Clerk API" as ClAPI
+
+    FE -down-> BE : Sends requests
+    BE -down-> DB : Queries/updates data
+    BE -down-> ES : Fetches data
+    ES -down-> ExAPI : Fetch exercise data
+    ES -down-> ClAPI : Fetch clerk data
+@enduml
+```
 
 ---
 
