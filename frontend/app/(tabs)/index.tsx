@@ -152,17 +152,17 @@ function Home() {
         {/* Quick Actions Section */}
         <View className="mt-6 flex-row justify-between">
           <TouchableOpacity className="items-center flex-1 mx-1" onPress={() => router.push('/log_workout')}>
-          <View className="bg-blue-600 p-4 rounded-full shadow-lg">
-          <MaterialCommunityIcons name="dumbbell" size={28} color="#fff" />
+            <View className="bg-blue-600 p-4 rounded-full shadow-lg">
+              <MaterialCommunityIcons name="dumbbell" size={28} color="#fff" />
             </View>
             <ThemedText className="mt-2 text-gray-800 dark:text-white font-medium">
-              Log Workout
+              Logged Workout
             </ThemedText>
           </TouchableOpacity>
 
           <TouchableOpacity className="items-center flex-1 mx-1" onPress={() => router.push('/calorie_calculator')}>
-          <View className="bg-blue-600 p-4 rounded-full shadow-lg">
-          <MaterialCommunityIcons name="calculator" size={28} color="#fff" />
+            <View className="bg-blue-600 p-4 rounded-full shadow-lg">
+              <MaterialCommunityIcons name="calculator" size={28} color="#fff" />
             </View>
             <ThemedText className="mt-2 text-gray-800 dark:text-white font-medium">
               Calorie Calculator
@@ -177,10 +177,10 @@ function Home() {
               Track Meals
             </ThemedText>
           </TouchableOpacity>
-          
-          <TouchableOpacity className="items-center flex-1 mx-1" onPress={() => router.push('add_workout/workouts')}>
-            
-              <View className="bg-green-500 p-4 rounded-full shadow-lg">
+
+          <TouchableOpacity className="items-center flex-1 mx-1" onPress={() => router.push('/add_workout/workouts')}>
+
+            <View className="bg-green-500 p-4 rounded-full shadow-lg">
               <Ionicons name="add-circle-outline" size={28} color="#fff" />
             </View>
             <ThemedText className="mt-2 text-gray-800 dark:text-white font-medium">
