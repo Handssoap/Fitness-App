@@ -1,134 +1,186 @@
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { ThemedText } from '../../components/ThemedText'
-import { useState } from 'react'
-import { Picker } from '@react-native-picker/picker'
-
-type CalorieCalculatorParams = {
-    sex: string    // m for man and w for women
-    weight: number // in kg
-    height: number // in cm
-    age: number
-    activeness: number // Activeness 
-}
+import React, { useState } from 'react';
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import { Stack } from 'expo-router';
 
 type Activeness = {
-    label: string,
-    value: number,
-}
+  label: string;
+  value: number;
+};
 
 const ActivenessList: Activeness[] = [
-    { label: "Sometimes", value: 1.2, },
-    { label: "Lightly Active", value: 1.375, },
-    { label: "Moderately Active", value: 1.55, },
-    { label: "Very Active", value: 1.725 },
-    { label: "Extra Active", value: 1.9, }
-]
+  { label: 'Sedentary (Little or no exercise)', value: 1.2 },
+  { label: 'Lightly Active (Light exercise/sports 1-3 days/week)', value: 1.375 },
+  { label: 'Moderately Active (Moderate exercise/sports 3-5 days/week)', value: 1.55 },
+  { label: 'Very Active (Hard exercise/sports 6-7 days a week)', value: 1.725 },
+  { label: 'Extra Active (Very hard exercise & physical job)', value: 1.9 },
+];
 
 export default function CalorieCalculator() {
-    const [calories, setCalories] = useState<Number>();
+  const [calories, setCalories] = useState<number | null>(null);
 
-    const [activeness, setActiveness] = useState<Number>();
-    const [sex, setSex] = useState<"w" | "m">("m");
-    const [weight, setWeight] = useState<Number>();
-    const [height, setHeight] = useState<Number>();
-    const [age, setAge] = useState<Number>();
+  const [activeness, setActiveness] = useState<number>(1.2);
+  const [sex, setSex] = useState<'w' | 'm'>('m');
+  const [weight, setWeight] = useState<string>('');
+  const [height, setHeight] = useState<string>('');
+  const [age, setAge] = useState<string>('');
 
-    const handleSubmit = () => {
-        if (sex && weight && height && age) {
-            const result = calculateCalories(
-                sex,
-                weight as number,
-                height as number,
-                age as number,
-                activeness as number
-            )
-            setCalories(result)
-        }
+  const handleSubmit = () => {
+    if (sex && weight && height && age && activeness) {
+      const result = calculateCalories(
+        sex,
+        parseFloat(weight),
+        parseFloat(height),
+        parseFloat(age),
+        activeness
+      );
+      setCalories(result);
+    } else {
+      alert('Please fill in all fields.');
     }
+  };
 
-    return (
-        <ScrollView className='p-4 gap-4'>
-            <View className='my-3 space-y-2'>
-                <Text className='text-4xl'> Calculate Calories </Text>
+  return (
+    <>
+      <Stack.Screen options={{ headerShown: false }} />
+      <ScrollView className="flex-1 bg-white dark:bg-gray-900">
+        <View className="p-6">
+          <Text className="text-4xl font-bold text-center text-purple-600 mb-8">
+            Calorie Calculator
+          </Text>
+
+          {/* Age Input */}
+          <View className="mb-4">
+            <Text className="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-200">
+              Age
+            </Text>
+            <TextInput
+              className="border border-gray-300 dark:border-gray-700 rounded-md p-3 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800"
+              placeholder="Enter your age"
+              placeholderTextColor="#999"
+              keyboardType="numeric"
+              value={age}
+              onChangeText={(text) => setAge(text)}
+            />
+          </View>
+
+          {/* Weight Input */}
+          <View className="mb-4">
+            <Text className="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-200">
+              Weight (kg)
+            </Text>
+            <TextInput
+              className="border border-gray-300 dark:border-gray-700 rounded-md p-3 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800"
+              placeholder="Enter your weight in kg"
+              placeholderTextColor="#999"
+              keyboardType="numeric"
+              value={weight}
+              onChangeText={(text) => setWeight(text)}
+            />
+          </View>
+
+          {/* Height Input */}
+          <View className="mb-4">
+            <Text className="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-200">
+              Height (cm)
+            </Text>
+            <TextInput
+              className="border border-gray-300 dark:border-gray-700 rounded-md p-3 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800"
+              placeholder="Enter your height in cm"
+              placeholderTextColor="#999"
+              keyboardType="numeric"
+              value={height}
+              onChangeText={(text) => setHeight(text)}
+            />
+          </View>
+
+          {/* Sex Picker */}
+          <View className="mb-4">
+            <Text className="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-200">
+              Sex
+            </Text>
+            <View className="border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">
+              <Picker
+                selectedValue={sex}
+                onValueChange={(value) => setSex(value)}
+                mode="dropdown"
+                dropdownIconColor="#888"
+                style={{ color: '#888' }}
+              >
+                <Picker.Item label="Male" value="m" />
+                <Picker.Item label="Female" value="w" />
+              </Picker>
             </View>
+          </View>
 
-            <View className='my-2 space-y-2'>
-                <Text className='font-bold'> Age </Text>
-                <TextInput className='p-2 placeholder:text-gray-700' placeholder='Enter age' onChangeText={a => setAge(Number(a))} />
+          {/* Activeness Picker */}
+          <View className="mb-4">
+            <Text className="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-200">
+              Activeness
+            </Text>
+            <View className="border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">
+              <Picker
+                selectedValue={activeness}
+                onValueChange={(value) => setActiveness(value)}
+                mode="dropdown"
+                dropdownIconColor="#888"
+                style={{ color: '#888' }}
+              >
+                {ActivenessList.map((item) => (
+                  <Picker.Item key={item.value} label={item.label} value={item.value} />
+                ))}
+              </Picker>
             </View>
+          </View>
 
-            <View className='my-2 space-y-2'>
-                <Text className='font-bold'> Weight in kg </Text>
-                <TextInput className='p-2 placeholder:text-gray-700' placeholder='Enter weight in kg.' onChangeText={a => setWeight(Number(a))} />
+          {/* Calculate Button */}
+          <TouchableOpacity
+            className="bg-purple-600 py-4 rounded-md mt-6"
+            onPress={handleSubmit}
+          >
+            <Text className="text-center text-white text-lg font-semibold">
+              Calculate Calories
+            </Text>
+          </TouchableOpacity>
+
+          {/* Result Display */}
+          {calories !== null && (
+            <View className="mt-8 bg-purple-100 dark:bg-purple-900 p-6 rounded-md">
+              <Text className="text-2xl font-bold text-center text-purple-800 dark:text-purple-200">
+                Total Daily Calorie Intake
+              </Text>
+              <Text className="text-5xl font-extrabold text-center text-purple-800 dark:text-purple-200 mt-4">
+                {calories.toFixed(2)}
+              </Text>
+              <Text className="text-center text-gray-600 dark:text-gray-400 mt-2">
+                kcal/day
+              </Text>
             </View>
-
-            <View className='my-2 space-y-2'>
-                <Text className='font-bold'> Height in kg </Text>
-                <TextInput className='p-2 placeholder:text-gray-700' placeholder='Enter height in cm' onChangeText={a => setHeight(Number(a))} />
-            </View>
-
-            <View className='my-2 space-y-2'>
-                <Text className='font-bold'> Sex </Text>
-                <Picker
-                    className='p-2 placeholder:text-gray-700'
-                    selectedValue={sex}
-                    onValueChange={a => setSex(a)}
-                >
-                    <Picker.Item label={"Male"} value={"m"} />
-                    <Picker.Item label={"Female"} value={"w"} />
-                </Picker>
-            </View>
-
-            <View className='my-2 space-y-2'>
-                <Text> Activeness </Text>
-                <Picker
-                    className='p-2 placeholder:text-gray-700'
-                    selectedValue={activeness}
-                    onValueChange={a => setActiveness(a)}
-                >
-                    {
-                        ActivenessList.map(a => (
-                            <Picker.Item label={a.label} value={a.value} />
-                        ))
-                    }
-                </Picker>
-            </View>
-
-            <View>
-                <TouchableOpacity className="items-center bg-purple-500 py-2 flex-1 mx-1" onPress={handleSubmit}>
-                    <Text className="text-gray-800 dark:text-white font-medium">
-                        Calculate Calories
-                    </Text>
-                </TouchableOpacity>
-            </View>
-
-            <View className='my-2 flex-1 justify-center items-center'>
-                <Text className='text-xl'> Total Daily Calorie  </Text>
-                <Text className='text-6xl font-bold'>  {calories ? calories.toFixed(2) : ""} </Text>
-            </View>
-
-        </ScrollView>
-    )
+          )}
+        </View>
+      </ScrollView>
+    </>
+  );
 }
 
-
-
 function calculateCalories(
-    sex: string,
-    weight: number,
-    height: number,
-    age: number,
-    activeness: number,
+  sex: string,
+  weight: number,
+  height: number,
+  age: number,
+  activeness: number
 ) {
-    return activeness * calculateBMR(sex, weight, height, age)
+  return activeness * calculateBMR(sex, weight, height, age);
 }
 
 function calculateBMR(sex: string, weight: number, height: number, age: number): number {
-    if (sex.toLowerCase() == "m") {
-        //66.47 + (13.75 x weight in kg) + (5.003 x height in cm) - (6.755 x age in years)
-        return 66.47 + (13.75 * weight) + (5.0003 * height) - (6.755 * age)
-    } else if (sex.toLowerCase() == "w") {
-        // 655.1 + (9.563 x weight in kg) + (1.850 x height in cm) - (4.676 x age in years
-        return 655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age)
-    }
+  if (sex.toLowerCase() === 'm') {
+    // Male BMR formula
+    return 66.47 + 13.75 * weight + 5.003 * height - 6.755 * age;
+  } else if (sex.toLowerCase() === 'w') {
+    // Female BMR formula
+    return 655.1 + 9.563 * weight + 1.850 * height - 4.676 * age;
+  } else {
+    return 0;
+  }
 }

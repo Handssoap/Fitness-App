@@ -1,181 +1,239 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  ActivityIndicator,
+  ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Alert,
+  TextInput as RNTextInput,
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import Constants from 'expo-constants';
+const targetMuscles = [
+  'abs',
+  'quads',
+  'lats',
+  'calves',
+  'pectorals',
+  'glutes',
+  'hamstrings',
+  'adductors',
+  'triceps',
+  'cardiovascular system',
+  'spine',
+  'upper back',
+  'biceps',
+  'delts',
+  'forearms',
+  'traps',
+  'serratus anterior',
+  'abductors',
+  'levator scapulae',
+];
 
-const Notes = () => {
- 
-  const [newNote, setNewNote] = useState(''); // New note content
-  const [replyNoteId, setReplyNoteId] = useState<string | null>(null); // ID of the note being replied to
-  const [replyContent, setReplyContent] = useState(''); // Reply content
-  const [loading, setLoading] = useState(false); // Loading state
+const goals = [
+  'weight_loss',
+  'muscle_gain',
+  'strength_training',
+  'cardiovascular_endurance',
+  'flexibility',
+  'general_fitness',
+];
+const WorkoutPlannerPage = () => {
+  const [gender, setGender] = useState('');
+  const [weight, setWeight] = useState('');
+  const [target, setTarget] = useState('');
+  const [goal, setGoal] = useState('');
+  const [routine, setRoutine] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const apiKey = Constants.expoConfig?.extra?.apiKey;
+  const handleSubmit = async () => {
+    console.log('handleSubmit called');
+    if (!gender || !weight || !target || !goal) {
+      Alert.alert('Error', 'Please fill in all fields.');
+      return;
+    }
 
-  // Dummy data for notes
-  const dummyNotes: Note[] = [
-    {
-      id: '1',
-      authorName: 'John Doe',
-      content: 'This is the first note.',
-      replies: [
+    setLoading(true);
+    setRoutine([]);
+
+    try {
+      const response = await fetch(
+        `https://zylalabs.com/api/392/exercise+database+api/4824/ai+workout+planner?target=${encodeURIComponent(
+          target
+        )}&gender=${encodeURIComponent(
+          gender
+        )}&weight=${encodeURIComponent(weight)}&goal=${encodeURIComponent(goal)}`,
         {
-          id: '1-1',
-          authorName: 'Jane Smith',
-          content: 'Thanks for sharing!',
-        },
-      ],
-    },
-    {
-      id: '2',
-      authorName: 'Alice Johnson',
-      content: 'Hello everyone!',
-      replies: [],
-    },
-  ];
-  const [notes, setNotes] = useState<Note[]>(dummyNotes); // List of notes
-  // Function to post a new note
-  const postNote = () => {
-    if (!newNote.trim()) return;
-    const newNoteObj: Note = {
-      id: (notes.length + 1).toString(),
-      authorName: 'You',
-      content: newNote,
-      replies: [],
-    };
-    setNotes([newNoteObj, ...notes]);
-    setNewNote('');
-  };
-
-  // Function to post a reply to a note
-  const postReply = (noteId: string) => {
-    if (!replyContent.trim()) return;
-    const updatedNotes = notes.map((note) => {
-      if (note.id === noteId) {
-        const newReply: Reply = {
-          id: `${noteId}-${note.replies.length + 1}`,
-          authorName: 'You',
-          content: replyContent,
-        };
-        return { ...note, replies: [...note.replies, newReply] };
-      }
-      return note;
-    });
-    setNotes(updatedNotes);
-    setReplyContent('');
-    setReplyNoteId(null);
-  };
-
-  // Render each note item
-  const renderNote = ({ item }: { item: Note }) => (
-    <View className="bg-gray-800 rounded-xl p-4 mb-4">
-      <Text className="text-white text-base font-semibold mb-2">
-        {item.authorName}
-      </Text>
-      <Text className="text-gray-300 text-base mb-2">{item.content}</Text>
-      {/* Display replies */}
-      {item.replies.length > 0 && (
-        <View className="bg-gray-700 rounded-lg p-2 mb-2">
-          {item.replies.map((reply) => (
-            <View key={reply.id} className="mb-2">
-              <Text className="text-gray-400 text-sm font-semibold">
-                {reply.authorName}
-              </Text>
-              <Text className="text-gray-300 text-sm">{reply.content}</Text>
-            </View>
-          ))}
-        </View>
-      )}
-      {/* Reply button */}
-      <TouchableOpacity
-        onPress={() =>
-          setReplyNoteId((prevId) => (prevId === item.id ? null : item.id))
+          method: 'GET',
+          headers: {
+            Authorization: "Bearer",
+          },
         }
-        className="flex-row items-center mt-2"
-      >
-        <MaterialIcons name="reply" size={20} color="#fff" />
-        <Text className="text-white text-sm ml-1">Reply</Text>
-      </TouchableOpacity>
-      {/* Reply input */}
-      {replyNoteId === item.id && (
-        <View className="mt-2">
-          <TextInput
-            className="bg-gray-900 text-white rounded-md p-2"
-            placeholder="Write a reply..."
-            placeholderTextColor="#888"
-            value={replyContent}
-            onChangeText={setReplyContent}
-            multiline
-          />
-          <TouchableOpacity
-            onPress={() => postReply(item.id)}
-            className="bg-blue-500 rounded-md p-2 mt-2 items-center"
-          >
-            <Text className="text-white font-semibold">Post Reply</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </View>
-  );
+        
+      );
+      console.log('Response status:', response.status);
+      console.log('REACT_APP_API_KEY:', process.env.REACT_APP_API_KEY);
+      const data = await response.json();
+
+      if (data && data.status) {
+        // Parse the routine string into an array of lines
+        const routineText = data.routine[0];
+        const routineLines = routineText
+          .split('\n')
+          .filter((line: string) => line.trim() !== '');
+        setRoutine(routineLines);
+        console.log('Routine set successfully');
+      } else {
+        Alert.alert('Error', data.message || 'Failed to get workout routine.');
+      }
+    } catch (err: any) {
+      console.log('Error in handleSubmit:', err);
+      Alert.alert(
+        'Error',
+        err.message || 'An error occurred while fetching the workout routine.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-gray-900 px-4 pt-4"
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      className="flex-1"
+      behavior={Platform.select({ ios: 'padding', android: undefined })}
     >
-      <Text className="text-2xl font-bold text-white mb-4">Notes</Text>
-      {/* New Note Input */}
-      <View className="mb-4">
-        <TextInput
-          className="bg-gray-800 text-white rounded-md p-4"
-          placeholder="What's on your mind?"
-          placeholderTextColor="#888"
-          value={newNote}
-          onChangeText={setNewNote}
-          multiline
-        />
-        <TouchableOpacity
-          onPress={postNote}
-          className="bg-green-500 rounded-md p-4 mt-2 items-center"
-        >
-          <Text className="text-white font-semibold">Post Note</Text>
-        </TouchableOpacity>
-      </View>
-      {/* Notes List */}
-      {loading ? (
-        <View className="flex-1 justify-center items-center">
-          <ActivityIndicator size="large" color="#fff" />
+      <ScrollView contentContainerStyle={{ paddingBottom: 32 }} className="p-4">
+        <Text className="text-3xl font-bold text-center mb-6">AI Workout Planner</Text>
+
+        {/* Gender Picker */}
+        <View className="mb-4">
+          <Text className="text-lg mb-2">Gender</Text>
+          <View className="border border-gray-300 rounded">
+            <Picker
+              selectedValue={gender}
+              onValueChange={(itemValue) => setGender(itemValue)}
+            >
+              <Picker.Item label="Select Gender" value="" />
+              <Picker.Item label="Male" value="male" />
+              <Picker.Item label="Female" value="female" />
+            </Picker>
+          </View>
         </View>
-      ) : (
-        <FlatList
-          data={notes}
-          renderItem={renderNote}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={{ paddingBottom: 16 }}
-        />
-      )}
+
+        {/* Weight Input */}
+        <View className="mb-4">
+          <Text className="text-lg mb-2">Weight (kg)</Text>
+          <RNTextInput
+            className="border border-gray-300 rounded p-2"
+            keyboardType="numeric"
+            value={weight}
+            onChangeText={(text) => setWeight(text)}
+            placeholder="Enter your weight in kg"
+          />
+        </View>
+
+        {/* Target Muscle Picker */}
+        <View className="mb-4">
+          <Text className="text-lg mb-2">Target Muscle</Text>
+          <View className="border border-gray-300 rounded">
+            <Picker
+              selectedValue={target}
+              onValueChange={(itemValue) => setTarget(itemValue)}
+            >
+              <Picker.Item label="Select Muscle" value="" />
+              {targetMuscles.map((muscle) => (
+                <Picker.Item
+                  key={muscle}
+                  label={muscle.charAt(0).toUpperCase() + muscle.slice(1)}
+                  value={muscle}
+                />
+              ))}
+            </Picker>
+          </View>
+        </View>
+
+        {/* Goal Picker */}
+        <View className="mb-4">
+          <Text className="text-lg mb-2">Goal</Text>
+          <View className="border border-gray-300 rounded">
+            <Picker
+              selectedValue={goal}
+              onValueChange={(itemValue) => setGoal(itemValue)}
+            >
+              <Picker.Item label="Select Goal" value="" />
+              {goals.map((g) => (
+                <Picker.Item
+                  key={g}
+                  label={
+                    g.replace('_', ' ').charAt(0).toUpperCase() +
+                    g.replace('_', ' ').slice(1)
+                  }
+                  value={g}
+                />
+              ))}
+            </Picker>
+          </View>
+        </View>
+
+        {/* Submit Button */}
+        <TouchableOpacity
+          className="bg-blue-500 py-3 rounded-md mt-4"
+          onPress={handleSubmit}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text className="text-center text-white text-lg font-semibold">
+              Get Workout Plan
+            </Text>
+          )}
+        </TouchableOpacity>
+
+        {/* Workout Routine Display */}
+        {routine.length > 0 ? (
+          <View className="mt-8">
+            <Text className="text-2xl font-bold mb-4">Your Workout Plan:</Text>
+            {routine.map((line, index) => {
+              // Simple parsing to format headings and lists
+              if (line.startsWith('**') && line.endsWith('**')) {
+                // Bold headings
+                return (
+                  <Text key={index} className="text-xl font-bold mt-4">
+                    {line.replace(/\*\*/g, '')}
+                  </Text>
+                );
+              } else if (/^\d+\./.test(line)) {
+                // Numbered lists
+                return (
+                  <Text key={index} className="ml-4">
+                    {line}
+                  </Text>
+                );
+              } else if (line.startsWith('-')) {
+                // Bullet points
+                return (
+                  <Text key={index} className="ml-4">
+                    {line}
+                  </Text>
+                );
+              } else {
+                // Regular text
+                return (
+                  <Text key={index} className="mt-2">
+                    {line}
+                  </Text>
+                );
+              }
+            })}
+          </View>
+        ) : null}
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
 
-export default Notes;
-
-// Type definitions
-interface Note {
-  id: string;
-  authorName: string;
-  content: string;
-  replies: Reply[];
-}
-
-interface Reply {
-  id: string;
-  authorName: string;
-  content: string;
-}
+export default WorkoutPlannerPage;
