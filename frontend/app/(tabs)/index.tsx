@@ -160,6 +160,15 @@ function Home() {
             </ThemedText>
           </TouchableOpacity>
 
+          <TouchableOpacity className="items-center flex-1 mx-1" onPress={() => router.push('/calorie_calculator')}>
+          <View className="bg-blue-600 p-4 rounded-full shadow-lg">
+          <MaterialCommunityIcons name="calculator" size={28} color="#fff" />
+            </View>
+            <ThemedText className="mt-2 text-gray-800 dark:text-white font-medium">
+              Calorie Calculator
+            </ThemedText>
+          </TouchableOpacity>
+
           <TouchableOpacity className="items-center flex-1 mx-1" onPress={() => router.push('/track_meals')}>
             <View className="bg-yellow-500 p-4 rounded-full shadow-lg">
               <Ionicons name="restaurant-outline" size={28} color="#fff" />
