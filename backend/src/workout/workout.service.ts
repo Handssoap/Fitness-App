@@ -98,8 +98,15 @@ export class WorkoutService {
     });
   }
 
-  findAll() {
-    return `This action returns all workout`;
+ async findAliWorkoutTemplates(userId: string) {
+    return await this.prisma.workout.findMany({
+      where: {
+        userId
+      }, 
+      include: {
+        exercises: true
+      }
+    })
   }
 
   update(id: number, updateWorkoutDto: UpdateWorkoutDto) {

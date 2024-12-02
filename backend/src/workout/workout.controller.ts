@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { WorkoutService } from './workout.service';
 import {
@@ -78,10 +79,9 @@ export class WorkoutController {
   }
 
   // TODO
-  @Get()
-  @ApiExcludeEndpoint()
-  findAll() {
-    return this.workoutService.findAll();
+  @Get("/workout_templates")
+  async findAllWorkoutTemplates(@Query("userId") userId: string) {
+    return this.workoutService.findAliWorkoutTemplates(userId);
   }
 
   @Get(':id')
