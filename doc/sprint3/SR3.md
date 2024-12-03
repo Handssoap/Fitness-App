@@ -1,6 +1,6 @@
-# Sprint Retrospective Meeting - Sprint 2  
+# Sprint Retrospective Meeting - Sprint 3
 
-## Date: November 17, 2024  
+## Date: November 24, 2024  
 ## Location: Zoom Virtual Meeting  
 ## Participants:  
 | Name                    | Attended |
