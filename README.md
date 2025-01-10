@@ -1,3 +1,4 @@
+Project built for EECS 3311 by: Max Chornenkyy and Vince Flores
 > # Latte's Fitness App
 
 Although many fitness apps are available, we, along with many others, feel that none truly cater to our unique health goals in a personalized and effective way. That's why we decided to create an app that acts like a personal fitness trainer, designed to tailor a program specifically for each user.
